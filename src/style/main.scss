@@ -1,0 +1,340 @@
+html {
+    // 行高，指一行文字的高度，决定了行与行之间的距离
+    line-height: 1.5;
+}
+
+body {
+    // 控制元素周围外部空白区域
+    margin: 0;
+}
+
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+
+main {
+    // 将元素呈现为块级元素，块级元素通常占据一行
+    display: block;
+}
+
+h1 {
+    // h1字体大小与上下边距
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+
+hr {
+    // hr是水平线
+    // 水平线高度为0，content-box是不占任何空间，作为一条线的装饰性元素出现在页面中。
+    // visible这样做的目的是让水平线的长度可以超出其容器的宽度，并且在容器的两侧延伸出去。
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+
+pre {
+    // pre是预格式化文本块
+    // 设置字体族为等宽字体
+    // 设置了两个相同的字体，这是为了兼容不同的浏览器，这种技巧称为“字体堆叠”。
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+a {
+    // a 是超链接
+    // 背景色为透明，确保超链接的外观与其它内容相同
+    background-color: transparent;
+}
+
+
+abbr[title] {
+    // abbr表示缩写词和首字母缩写词
+    // 为包含title属性的缩写词或首字母缩略词添加下划线和点线的样式，而不显示下划线下面的边框。
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration: underline dotted;
+}
+
+b,
+strong {
+    // b 和 strong 用于将文本加粗以表示强调或重要性。
+    // 将元素的字体加粗
+    font-weight: bolder;
+}
+
+
+code,
+kbd,
+samp {
+    // 设置它们的字体和字号，以使它们在页面中显示为等宽字体。
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+small {
+    // 使它们在页面中显示为相对较小的字体
+    font-size: 80%;
+}
+
+
+
+sub,
+sup {
+    // sub 显示下标，sup显示上标
+    // relative 将元素的定位方式设置为相对定位
+    // baseline 将元素的垂直对齐方式设置为基线对齐
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+img {
+    // 将所有 <img> 标签的边框样式设置为无边框，即去掉图片的默认边框。
+    border-style: none;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+
+    // optgroup选项组元素
+    // font-family: inherit; 继承父元素的字体样式
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+
+
+button,
+input {
+    // 表示在内容溢出时不进行裁剪，而是显示在元素外部
+    overflow: visible;
+}
+
+
+button,
+select {
+    // button、select不进行文本转换
+    text-transform: none;
+}
+
+/*
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    // 确保按钮元素的外观采用浏览器默认的样式
+    -webkit-appearance: button;
+}
+*/
+
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+    // 这个样式只对 Firefox 浏览器有效
+    // 其他浏览器中没有相应的 :-moz-focusring 伪类。
+    // 表示在元素周围添加一个宽度为 1 像素、样式为点线、颜色为按钮文字颜色的轮廓线。
+    outline: 1px dotted ButtonText;
+}
+
+
+
+fieldset {
+    // 设置表单（form）元素的边框（fieldset）的填充（padding）样式。
+    // 上、右和下方向的填充值
+    padding: 0.35em 0.75em 0.625em;
+}
+
+
+legend {
+    // 设置表单分组标题 legend 元素的样式
+    // normal：设置换行方式为默认方式，即遇到空格或制表符时进行换行。
+    box-sizing: border-box;
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal;
+}
+
+
+progress {
+    // 设置进度条 progress 元素的垂直对齐方式为基线对齐
+    vertical-align: baseline;
+}
+
+textarea {
+    // 用于控制文本域的滚动条。
+    // 当文本内容超出文本域的可见区域时，会显示一个滚动条以便用户滚动查看文本。
+    overflow: auto;
+}
+
+
+[type="checkbox"],
+[type="radio"] {
+    // 设置复选框 checkbox 和单选框 radio 的盒模型（box-sizing）以及内边距（padding）
+    box-sizing: border-box;
+    padding: 0;
+}
+
+
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
+    // 让这些按钮的高度根据其内容自动计算，以便更好地适应不同的文本大小和按钮样式。
+    height: auto;
+}
+
+[type="search"] {
+    // 设置搜索输入框的样式
+    // -webkit-appearance: textfield;
+    outline-offset: -2px;
+}
+
+[type="search"]::-webkit-search-decoration {
+    // 隐藏搜索输入框中的搜索图标及其装饰元素，使得搜索输入框更加简洁
+    -webkit-appearance: none;
+}
+
+
+::-webkit-file-upload-button {
+    // 将文件上传按钮样式化为按钮样式，并确保按钮字体与页面其他元素保持一致。
+    -webkit-appearance: button;
+    font: inherit;
+}
+
+details {
+    // details 创建可折叠面板
+    // 强制将 details 元素显示为块级元素
+    display: block;
+}
+
+summary {
+    // summary 定义面板标题
+    // 将其显示为行内元素或列表项等
+    display: list-item;
+}
+
+
+
+
+template {
+    // template 定义一个可以在页面上暂时不显示的 HTML 模板
+    //  <template> 元素在网页中将不会被显示出来。
+    display: none;
+}
+
+
+[hidden] {
+    // hidden 属性用于指示元素是否应该在页面中显示
+    display: none;
+}
+
+HTML,
+body,
+div,
+ul,
+ol,
+dl,
+li,
+dt,
+dd,
+p,
+blockquote,
+pre,
+form,
+fieldset,
+table,
+th,
+td {
+    border: none;
+    // 字体优先级按照顺序来
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    font-size: 14px;
+    margin: 0px;
+    padding: 0px;
+}
+
+address,
+caption,
+cite,
+code,
+th,
+var {
+    // 字体风格与粗细
+    font-style: normal;
+    font-weight: normal;
+}
+
+
+a {
+    // 用于去除链接的下划线效果，使链接看起来更加简洁
+    text-decoration: none;
+}
+
+input::-ms-clear {
+    // 隐藏 IE 浏览器中出现在文本输入框右侧的“清除”按钮，避免影响页面的美观性
+    display: none;
+}
+
+input::-ms-reveal {
+    // 隐藏 IE 浏览器中出现在密码输入框右侧的“显示密码”按钮
+    display: none;
+}
+
+input {
+    // -webkit-appearance: none;
+    margin: 0;
+    outline: none;
+    padding: 0;
+}
+
+input::-webkit-input-placeholder {
+    color: #ccc;
+}
+
+input::-ms-input-placeholder {
+    color: #ccc;
+}
+
+input::-moz-placeholder {
+    color: #ccc;
+}
+
+input[type=submit],
+input[type=button] {
+    cursor: pointer;
+}
+
+button[disabled],
+input[disabled] {
+    cursor: default;
+}
+
+img {
+    border: none;
+}
+
+
+ul,
+ol,
+li {
+    // 即不显示任何项目符号或编号
+    list-style-type: none;
+}

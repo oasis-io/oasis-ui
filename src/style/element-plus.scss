@@ -1,0 +1,156 @@
+// 全局
+#app {
+  background: #eee;
+  height: 100vh;
+  overflow: hidden;
+  font-weight: 400 !important;
+}
+
+.el-button {
+  font-weight: 400 !important;
+}
+
+// 表格背景
+.table-box {
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 2px;
+  }
+  
+  .button-left {
+    margin-bottom: 12px;
+    display: flex;
+    .el-button + .el-button {
+      margin-left: 12px;
+    }
+  }
+  
+  .el-aside {
+      width: auto;
+  }
+  
+  .el-header {
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+  }
+  
+  .el-main {
+      height: calc(100vh - 60px) !important;        
+      overflow-y: auto;
+  }
+  
+  .el-menu-cont {
+      height: 100vh;
+      border: none;
+      border-right-width: 0;    
+  }
+  
+  
+  .pagination {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+      .el-pagination__editor {
+        .el-input__inner {
+          height: 32px;
+        }
+      }
+      .el-pagination__total {
+        line-height: 32px !important;
+      }
+      .is-active {
+        background: var(--el-color-primary);
+        border-radius: 2px;
+        color: #ffffff !important;
+      }
+    }
+    
+  // table
+  // 这里加黑了标题和色彩
+  .el-table {
+    thead {
+        color: #262626;
+    }
+    th {
+        padding: 6px 0;
+        .cell {
+            color: rgba($color: #000000, $alpha: 0.85);
+            font-size: 14px;
+            line-height: 40px;
+            min-height: 40px;
+        }
+    }
+    td {
+        padding: 6px 0;
+        .cell {
+            min-height: 40px;
+            line-height: 40px;
+            color: rgba($color: #000000, $alpha: 0.65);
+        }
+    }
+    td.is-leaf {
+        border-bottom: 1px solid #e8e8e8;
+    }
+    th.is-leaf {
+        background: #F7FBFF;
+        border-bottom: none;
+    }
+  }  
+  
+  .el-table--border {
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  
+  .el-table--striped {
+    .el-table__body {
+        tr.el-table__row--striped {
+            td {
+                background: #fff !important;
+            }
+        }
+    }
+  }
+  
+  .el-table th,
+  .el-table tr {
+      background-color: #ffffff;
+  }
+  
+  .el-table__row {
+    .el-button.el-button--text.el-button--small {
+        position: relative;
+    }
+    .cell {
+        button:last-child::after {
+            content: '' !important;
+            position: absolute !important;
+            width: 0px !important;
+        }
+    }
+  }
+  
+  .el-table--striped .el-table__body tr.el-table__row--level-1 td:first-child {
+    .cell {
+        .el-table__indent {
+            border-right: 1.5px solid #ccc;
+            margin-left: 6px;
+        }
+        .el-table__placeholder {
+            width: 10px;
+        }
+    }
+  }
+  
+  .el-table--striped .el-table__body tr.el-table__row--level-2 td:first-child {
+    .cell {
+        .el-table__indent {
+            border-right: 1.5px solid #ccc;
+            margin-left: 6px;
+        }
+        .el-table__placeholder {
+            width: 10px;
+        }
+    }
+  }
