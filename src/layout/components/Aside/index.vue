@@ -1,87 +1,70 @@
 <template>
-    <div>
-      <el-menu unique-opened background-color="#001529" text-color="#fff" active-text-color="#ffd04b" class="el-menu-cont"
-        default-active="2" :collapse="sidebar.isCollapse" @open="handleOpen" @close="handleClose" @select="MenuChange">
-        <el-menu-item index="1">
-          <el-icon><home-filled /></el-icon>
-          <span>仪表盘</span>
-        </el-menu-item>
-        <el-sub-menu index="4">
-          <template #title>
-            <el-icon><icon-menu /></el-icon>
-            <span>实例管理</span>
-          </template>
-          <el-menu-item index="4-1">实例列表</el-menu-item>
-        </el-sub-menu>
-        <el-sub-menu index="5">
-          <template #title>
-            <el-icon>
-              <user />
-            </el-icon>
-            <span>用户中心</span>
-          </template>
-          <el-menu-item index="5-1">用户管理</el-menu-item>
-          <el-menu-item index="5-2">角色管理</el-menu-item>
-          <el-menu-item index="5-3">用户组管理</el-menu-item>
-        </el-sub-menu>
+  <div>
+    <transition
+      :duration="{ enter: 800, leave: 100 }"
+      mode="out-in"
+      name="el-fade-in-linear"
+    >
+      <el-menu
+        unique-opened
+        background-color="#fff"
+        text-color="#000000"
+        active-text-color="#ffd04b"
+        class="el-menu-cont"
+        :default-active="activeIndex"
+        :collapse="sidebar.isCollapse"
+        @open="handleOpen"
+        @close="handleClose"
+        @select="MenuChange"
+      >
+      <MenuItem :router-info="MockData" :is-collapse="sidebar.isCollapse" />
       </el-menu>
-    </div>
-  </template>
-  
-  <script lang="ts" setup>
-  import {
-    HomeFilled,
-    Menu as IconMenu,
-    User,
-    Bicycle,
-    Search,
-  } from "@element-plus/icons-vue";
-  import { useRouter } from "vue-router";
-  import { useSidebarStore } from "@/store/collapse";
-  
-  // 侧边栏折叠
-  const sidebar = useSidebarStore();
-  
-  const handleOpen = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
-  };
-  const handleClose = (key: string, keyPath: string[]) => {
-    console.log(key, keyPath);
-  };
-  
-  // 关联寻找到菜单栏
-  const router = useRouter();
-  const MenuChange = (index: string) => {
-    switch (index) {
-      case "1":
-        router.push({ name: "Home" });
-        break;
-      case "4-1":
-        router.push({ name: "Instance" });
-        break;
-      case "5-1":
-        router.push({ name: "UserList" });
-        break;
-      case "5-2":
-        router.push({ name: "UserRole" });
-        break;
-      case "5-3":
-        router.push({ name: "UserGroup" });
-        break;
-    }
-  };
-  </script>
-  
-  <style lang="scss">
-  .el-menu-item:hover {
-    background-color: #1890ff;
-    color: #fff;
-  }
-  
-  
-  .el-menu-cont:not(.el-menu--collapse) {
-    width: 200px;
-    min-height: 400px;
-  }
-  </style>
-  
+    </transition>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useSidebarStore } from "@/store/collapse";
+import { useRouterStore } from "@/store/router";
+import MenuItem from "./MenuItem.vue"
+// import MockData from "@/mock/index.json"
+import MockData from "@/mock/test.json"
+
+const activeIndex = ref("0");
+
+
+// 侧边栏折叠
+const sidebar = useSidebarStore();
+const routerStore = useRouterStore();
+
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath);
+};
+
+// 关联寻找到菜单栏
+const router = useRouter();
+
+// Menu
+const menuItems = ref(router.getRoutes());
+
+const MenuChange = () => {
+  router.push({ name: "Home" });
+};
+</script>
+
+<style lang="scss">
+.el-menu-item:hover {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.el-menu-cont:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+</style>

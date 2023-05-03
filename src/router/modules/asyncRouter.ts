@@ -1,20 +1,10 @@
 import type { RouteRecordRaw } from "vue-router";
 
-const routes: RouteRecordRaw[] = [
+const asyncRouter: RouteRecordRaw[] = [
   {
     path: "/",
     component: () => import("@/layout/index.vue"),
-    redirect: { name: "Home" },
     children: [
-      {
-        path: "/home",
-        name: "Home",
-        meta: {
-          title: "系统首页",
-          permiss: "1",
-        },
-        component: () => import("@/views/home/index.vue"),
-      },
       {
         path: "/instance",
         name: "Instance",
@@ -55,4 +45,4 @@ const routes: RouteRecordRaw[] = [
   },
 ];
 
-export default routes;
+export default asyncRouter;

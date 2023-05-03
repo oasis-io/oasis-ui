@@ -1,20 +1,10 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
-import { useUserStore } from "@/store/user";
+import baseRouter from "./modules/baseRouter";
 
-const routes: RouteRecordRaw[] = [];
-
-const modules: Record<string, any> = import.meta.glob("./modules/*.ts", {
-  eager: true,
-});
-
-for (const path in modules) {
-  routes.push(...modules[path].default);
-}
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: routes,
+  routes: baseRouter,
 });
 
 
