@@ -1,28 +1,36 @@
-import router from '@/router'
+import router from "@/router";
 import { useUserStore } from "@/store/user";
-import asyncRouter from './router/modules/asyncRouter';
-import useRouterStore from './store/router';
+import { useRouterStore } from "./store/router";
 
+const getRouter = async (userStore: any) => {
+  const routerStore = useRouterStore();
+  await routerStore.SetAsyncRouter();
+  await userStore.GetUserInfo()
+  const asyncRouters = routerStore.asyncRouters;
+  asyncRouters.forEach((asyncRouter) => {
+    router.addRoute(asyncRouter);
+  });
+};
 
+router.beforeEach(async (to, from) => {
+  const userStore = useUserStore();
+  const token = userStore.token;
+  const routerStore = useRouterStore();
 
-// router.beforeEach(async (to, from, next) => {
-//     const userStore = useUserStore()
-//     const token = userStore.token
-    
-//     if (to.name !== 'Login' && !token) {
-//         next({ name: 'Login' })
-//     } else {
-//         if (token) {
-//             await userStore.GetUserInfo()
-//         }
-//         next()
-//     }
-// })
-
-const getRouter = async(userStore: any) => {
-    const userPermissions = ["3","4","5"]
-
-    const store = useRouterStore()
-
-    store.SetAsyncRouter(userPermissions)
-}
+  if (
+    // 检查用户是否已登录
+    !token &&
+    // 避免无限重定向
+    to.name !== "Login"
+  ) {
+    // 将用户重定向到登录页面
+    return { name: "Login" };
+  } else {
+    if(token) {
+       if (routerStore.asyncRouterCount === 0) {
+        await getRouter(userStore)
+        router.replace(to.path);
+      }     
+    }
+  }
+});

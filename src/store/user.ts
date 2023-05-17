@@ -4,6 +4,7 @@ import { login, getUserInfo, LoginParams } from "@/api/user";
 import router from '@/router/index'
 import { ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
+import { useRouterStore } from './router'
 
 export const useUserStore = defineStore('user', () => {
     const userInfo = ref({
@@ -39,16 +40,25 @@ export const useUserStore = defineStore('user', () => {
         token.value = ''
         sessionStorage.clear()
         localStorage.clear()
-    }    
+    }  
 
     // Login
     const LoginIn = async (user: LoginParams) => {
         const res = await login(user)
-        if (res.status === 200) {
-            setUserInfo(res.data.user)
+        if (res.data.code === 1000) {
+            setUserInfo(res.data.data.user)
             setToken(res.data.data.token)
-            router.push({ name: "Home" })
+            const routerStore = useRouterStore()
+            // 从后端获取路由
+            await routerStore.SetAsyncRouter()  
+            const asyncRouters = routerStore.asyncRouters
+            // 解析后的添加到路由里面
+            asyncRouters.forEach(asyncRouter => {
+              router.addRoute(asyncRouter)
+            })
+            await router.replace({ name: "Home" })
             ElMessage.success('Login success!');
+            return true
         } else {
             ElMessage.error('Username or password is error!')
         }

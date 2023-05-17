@@ -1,39 +1,30 @@
-<template>
+
+<template >
   <div>
     <template v-for="item in routerInfo">
-      <el-sub-menu
-        :index="item._id"
-        v-if="
-          item.children &&
-          item.children.length > 0 &&
-          item.children[0].menuType.toString() === '1'
-        "
-      >
+      <el-sub-menu :index="item.ID" v-if="item.children &&
+        item.children.length > 0
+        ">
         <template #title>
-          <el-icon v-if="item.icon">
-            <component :is="item.icon" />
+          <el-icon v-if="item.meta.icon">
+            <component :is="item.meta.icon" />
           </el-icon>
-          <span>{{ item.menuName }}</span>
+          <span v-if="!isCollapse">{{ item.meta.title }}</span>
         </template>
-        <MenuItem :router-info="item.children"></MenuItem>
+        <MenuItem :router-info="item.children" :is-collapse="isCollapse"/>
       </el-sub-menu>
-      <!-- 判断children里面的路由 -->
-      <el-menu-item
-        v-else-if="item.menuType.toString() === '1'"
-        :index="item.path"
-        :key="item._id"
-      >
-      <el-icon v-if="item.icon">
-            <component :is="item.icon" />
-          </el-icon>      
-        {{ item.menuName }}
+      <el-menu-item :index="item.path" v-else>
+        <el-icon v-if="item.meta.icon">
+          <component :is="item.meta.icon" />
+        </el-icon>
+        <span v-if="!isCollapse">{{ item.meta.title }}</span> 
       </el-menu-item>
     </template>
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps } from "vue";
+<script lang="ts" setup>
+import { defineProps, ref } from "vue";
 
 const props = defineProps({
   routerInfo: {
@@ -49,4 +40,5 @@ const props = defineProps({
     type: Boolean,
   },
 });
+
 </script>

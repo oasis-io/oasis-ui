@@ -1,0 +1,98 @@
+[
+   {
+      "id": 1,
+      "create_time": "2023-05-13T00:34:37+08:00",
+      "update_time": "2023-05-13T00:34:37+08:00",
+      "parentID": "0",
+      "name": "Instance",
+      "path": "instance",
+      "component": "views/instance/index.vue",
+      "meta": {
+         "keepAlive": false,
+         "title": "实例列表",
+         "icon": "Menu",
+         "defaultMenu": false,
+         "closeTab": false
+      },
+      "hidden": false,
+      "sort": 0,
+      "children": null
+   },
+   {
+      "id": 2,
+      "create_time": "2023-05-16T20:33:30+08:00",
+      "update_time": "2023-05-16T20:33:30+08:00",
+      "parentID": "0",
+      "name": "User",
+      "path": "user",
+      "component": "views/user/index.vue",
+      "meta": {
+         "keepAlive": false,
+         "title": "用户中心",
+         "icon": "User",
+         "defaultMenu": false,
+         "closeTab": false
+      },
+      "hidden": false,
+      "sort": 0,
+      "children": [
+         {
+            "id": 3,
+            "create_time": "2023-05-16T20:33:58+08:00",
+            "update_time": "2023-05-16T20:33:58+08:00",
+            "parentID": "2",
+            "name": "UserList",
+            "path": "list",
+            "component": "views/user/UserList/index.vue",
+            "meta": {
+               "keepAlive": false,
+               "title": "用户管理",
+               "icon": "",
+               "defaultMenu": false,
+               "closeTab": false
+            },
+            "hidden": false,
+            "sort": 1,
+            "children": null
+         },
+         {
+            "id": 4,
+            "create_time": "2023-05-16T20:33:58+08:00",
+            "update_time": "2023-05-16T20:33:58+08:00",
+            "parentID": "2",
+            "name": "UserRole",
+            "path": "role",
+            "component": "views/user/UserRole/index.vue",
+            "meta": {
+               "keepAlive": false,
+               "title": "角色管理",
+               "icon": "",
+               "defaultMenu": false,
+               "closeTab": false
+            },
+            "hidden": false,
+            "sort": 2,
+            "children": null
+         },
+         {
+            "id": 5,
+            "create_time": "2023-05-16T20:33:59+08:00",
+            "update_time": "2023-05-16T20:33:59+08:00",
+            "parentID": "2",
+            "name": "UserGroup",
+            "path": "group",
+            "component": "views/user/UserGroup/index.vue",
+            "meta": {
+               "keepAlive": false,
+               "title": "用户组管理",
+               "icon": "",
+               "defaultMenu": false,
+               "closeTab": false
+            },
+            "hidden": false,
+            "sort": 3,
+            "children": null
+         }
+      ]
+   }
+]

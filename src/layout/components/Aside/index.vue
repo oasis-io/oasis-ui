@@ -7,8 +7,8 @@
     >
       <el-menu
         unique-opened
-        background-color="#fff"
-        text-color="#000000"
+        background-color="#001529"
+        text-color="#fff"
         active-text-color="#ffd04b"
         class="el-menu-cont"
         :default-active="activeIndex"
@@ -17,23 +17,20 @@
         @close="handleClose"
         @select="MenuChange"
       >
-      <MenuItem :router-info="MockData" :is-collapse="sidebar.isCollapse" />
+          <MenuItem :router-info="routerStore.asyncRouters[0].children" :is-collapse="sidebar.isCollapse" />
       </el-menu>
     </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSidebarStore } from "@/store/collapse";
 import { useRouterStore } from "@/store/router";
-import MenuItem from "./MenuItem.vue"
-// import MockData from "@/mock/index.json"
-import MockData from "@/mock/test.json"
+import MenuItem from "./MenuItem.vue";
 
 const activeIndex = ref("0");
-
 
 // 侧边栏折叠
 const sidebar = useSidebarStore();
@@ -52,8 +49,8 @@ const router = useRouter();
 // Menu
 const menuItems = ref(router.getRoutes());
 
-const MenuChange = () => {
-  router.push({ name: "Home" });
+const MenuChange = (index: string) => {
+  router.push({ path: index });
 };
 </script>
 
