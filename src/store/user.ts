@@ -30,8 +30,8 @@ export const useUserStore = defineStore('user', () => {
 
     const GetUserInfo = async() => {
         const res = await getUserInfo()
-        if (res.status === 200) {
-          setUserInfo(res.data.user)
+        if (res.data.code === 1000) {
+          setUserInfo(res.data.data.user)
         }
         return res
     }   
@@ -56,6 +56,7 @@ export const useUserStore = defineStore('user', () => {
             asyncRouters.forEach(asyncRouter => {
               router.addRoute(asyncRouter)
             })
+        
             await router.replace({ name: "Home" })
             ElMessage.success('Login success!');
             return true

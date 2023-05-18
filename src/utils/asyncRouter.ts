@@ -18,21 +18,21 @@ interface MenuItem {
   children: MenuItem[] | null;
 }
 
-const viewModules = import.meta.glob("../view/**/*.vue");
+const views = import.meta.glob("../views/**/*.vue");
 
 export const asyncRouterHandle = (asyncRouter: any) => {
   asyncRouter.forEach((item: any) => {
     if (item.component) {
       if (typeof item.component === "string") {
-        if (item.component.split('/')[0] === 'view') {
-          item.component = dynamicImport(viewModules, item.component)
+        if (item.component.split('/')[0] === 'views') {
+          item.component = dynamicImport(views , item.component)
         } else {
           delete item["component"];
-        } 
-      }
+        }  
+      } 
     } 
     if (item.children) {
-      asyncRouterHandle(item.children);
+     asyncRouterHandle(item.children);
     }
   });
 };

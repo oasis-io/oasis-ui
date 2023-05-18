@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { RouteRecordRaw } from "vue-router";
 import { defineStore } from "pinia";
 import { asyncMenu } from "@/api/menu";
@@ -51,7 +51,6 @@ export const useRouterStore = defineStore("router", () => {
     const asyncRouter = res.data.data.menus;
 
     formatRouter(asyncRouter, routeMap);
-
     // 异步路由添加到基础路由中
     baseRouter[0].children = asyncRouter;
     asyncRouterHandle(baseRouter);

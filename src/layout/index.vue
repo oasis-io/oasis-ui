@@ -8,7 +8,9 @@
           <el-header class="header-cont">
             <Header />
           </el-header>
-          <el-main class="main-cont"> <router-view /> </el-main>
+          <el-main class="main-cont"> 
+            <router-view />
+          </el-main>
         </el-container>
       </el-container>
     </div>

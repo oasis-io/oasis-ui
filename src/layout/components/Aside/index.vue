@@ -13,8 +13,6 @@
         class="el-menu-cont"
         :default-active="activeIndex"
         :collapse="sidebar.isCollapse"
-        @open="handleOpen"
-        @close="handleClose"
         @select="MenuChange"
       >
           <MenuItem :router-info="routerStore.asyncRouters[0].children" :is-collapse="sidebar.isCollapse" />
@@ -35,19 +33,7 @@ const activeIndex = ref("0");
 // 侧边栏折叠
 const sidebar = useSidebarStore();
 const routerStore = useRouterStore();
-
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath);
-};
-
-// 关联寻找到菜单栏
 const router = useRouter();
-
-// Menu
-const menuItems = ref(router.getRoutes());
 
 const MenuChange = (index: string) => {
   router.push({ path: index });
