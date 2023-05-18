@@ -18,6 +18,7 @@ const formatRouter = (routes: any, routeMap: any) => {
     });
 };
 
+
 export const useRouterStore = defineStore("router", () => {
   // KeepAlive
   const keepAliveRouters = ref([]);

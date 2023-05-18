@@ -1,10 +1,5 @@
 <template>
   <div>
-    <transition
-      :duration="{ enter: 800, leave: 100 }"
-      mode="out-in"
-      name="el-fade-in-linear"
-    >
       <el-menu
         unique-opened
         background-color="#001529"
@@ -17,16 +12,16 @@
       >
           <MenuItem :router-info="routerStore.asyncRouters[0].children" :is-collapse="sidebar.isCollapse" />
       </el-menu>
-    </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useSidebarStore } from "@/store/collapse";
 import { useRouterStore } from "@/store/router";
 import MenuItem from "./MenuItem.vue";
+
 
 const activeIndex = ref("0");
 
@@ -38,6 +33,7 @@ const router = useRouter();
 const MenuChange = (index: string) => {
   router.push({ path: index });
 };
+
 </script>
 
 <style lang="scss">

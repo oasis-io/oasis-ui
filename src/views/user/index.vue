@@ -9,7 +9,7 @@
     </router-view>
   </div>
 </template>
-  
+
 <script setup lang="ts">
 import { useRouterStore } from '@/store/router'
 
