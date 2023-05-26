@@ -18,6 +18,10 @@ export interface User {
 }
 
 
+export interface Role {
+    name: string;
+}
+
 export const login = (data: any) => {
     return service({
         url: `/user/login`,
@@ -86,6 +90,14 @@ export const deleteUser = (data: any ) => {
 
 
 // User Role
+export const getRoles = () => {
+    return service({
+        url: `/user/role`,
+        method: 'get',
+    })
+}
+
+
 export const getRoleList = (data: any) => {
     return service({
         url: `/user/role/list`,
@@ -96,7 +108,7 @@ export const getRoleList = (data: any) => {
 
 export const createRole = (data: any ) => {
     return service({
-        url: `/role/add`,
+        url: `/user/role/add`,
         method: 'post',
         data: data
     })    
@@ -104,7 +116,7 @@ export const createRole = (data: any ) => {
 
 export const updateRole = (data: any) => {
     return service({
-        url: `/role`,
+        url: `/user/role`,
         method: 'patch',
         data: data
     })
@@ -112,7 +124,7 @@ export const updateRole = (data: any) => {
 
 export const deleteRole = (data: any ) => {
     return service({
-        url: `/role`,
+        url: `/user/role`,
         method: 'delete',
         data: data
     })

@@ -56,7 +56,6 @@ export const useUserStore = defineStore('user', () => {
             asyncRouters.forEach(asyncRouter => {
               router.addRoute(asyncRouter)
             })
-        
             await router.replace({ name: "Home" })
             ElMessage.success('Login success!');
             return true

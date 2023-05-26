@@ -18,7 +18,6 @@ service.interceptors.request.use(
         return config
     },
     (error) => {
-        console.log("request error！")
         return error
     }
 )
@@ -26,17 +25,16 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
     (response) => {
-        const userStore = useUserStore()
-
-        if (response.headers['new-token']) {
-            userStore.setToken(response.headers['new-token'])
-        }
-        
         return response
     },
     (error) => {
-        console.log("response error！")
-        return error
+        const userStore = useUserStore()
+        if (error.response.data.code === 1002 ) {
+            console.log("token is expired！")
+            userStore.LoginOut()
+        } 
+       
+        return error.response
     }
 )
 

@@ -9,8 +9,12 @@
           <Header />
         </el-header>
         <el-main class="main-cont">
-          <router-view>
-          </router-view>
+          <transition mode="out-in" name="el-fade-in-linear">
+            <keep-alive>
+              <router-view>
+              </router-view>
+            </keep-alive>
+          </transition>
         </el-main>
       </el-container>
     </el-container>
@@ -18,11 +22,7 @@
 </template>
   
 <script setup lang="ts">
-import { useRouterStore } from "@/store/router";
 import Aside from "./components/Aside/index.vue";
 import Header from "./components/Header/index.vue"
-
-
-const routerStore = useRouterStore()
 </script>
   
