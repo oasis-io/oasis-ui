@@ -5,4 +5,4 @@
 简体中文 | [English](README_en.md)
 
 ## 介绍
-  这是Oasis的UI库，基于[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin.git)开源项目实现。
+  这是[Oasis](https://github.com/oasis-io/oasis.git)的UI库，基于[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin.git)开源项目实现。
