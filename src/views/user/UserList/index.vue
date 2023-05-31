@@ -9,18 +9,20 @@
             <el-table-column align="left" prop="phone" label="手机号" />
             <el-table-column align="left" label="角色">
                 <template #default="scope">
-                    <span v-for="(role, index) in scope.row.roles" :key="index">{{ role.name }}<span
+                    <span v-for="(roles, index) in scope.row.roles" :key="index">{{ roles.name }}<span
                             v-if="index !== scope.row.roles.length - 1">, </span></span>
                 </template>
             </el-table-column>
             <el-table-column align="left" label="操作" width="180">
                 <template #default="scope">
-                    <el-button link type="primary" size="small" @click.prevent="editRow(scope.row)">
+                    <el-button icon="edit" type="primary" link @click.prevent="editRow(scope.row)"
+                        v-if="scope.row.username !== 'admin'">
                         编辑
                     </el-button>
-                    <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.row)" v-if="scope.row.username !== 'admin'">
-            删除
-        </el-button>
+                    <el-button icon="delete" type="primary" link @click.prevent="deleteRow(scope.row)"
+                        v-if="scope.row.username !== 'admin'">
+                        删除
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -53,7 +55,7 @@
                     </el-form-item>
                     <el-form-item label="角色" prop="roles">
                         <el-select v-model="addForm.roles" multiple clearable style="width: 100%" placeholder="请选择角色">
-                            <el-option v-for="item in optionRoles" :key="item.value" :label="item.label"
+                            <el-option v-for="item in optionroles" :key="item.value" :label="item.label"
                                 :value="item.value" />
                         </el-select>
                     </el-form-item>
@@ -80,6 +82,12 @@
                     <el-form-item label="手机号" prop="phone">
                         <el-input v-model="editForm.phone" maxlength="30" show-word-limit placeholder="请输入手机号" />
                     </el-form-item>
+                    <el-form-item label="角色" prop="roles">
+                        <el-select v-model="editForm.roles" multiple clearable style="width: 100%" placeholder="请选择角色">
+                            <el-option v-for="item in optionroles" :key="item.value" :label="item.label"
+                                :value="item.value" />
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="密码" prop="password">
                         <el-input v-model="editForm.password" placeholder="请输入密码" autocomplete="off" type="password" />
                     </el-form-item>
@@ -97,7 +105,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import {
     getUserList,
     getUser,
@@ -123,7 +131,7 @@ const editFormRef = ref();
 const addDialog = ref(false);
 const editDialog = ref(false);
 
-const optionRoles = ref<RoleOption[]>([]);
+const optionroles = ref<RolesOption[]>([]);
 
 
 const validatePass = (rule: any, value: any, callback: any) => {
@@ -184,25 +192,50 @@ initPage();
 
 // 增删改查
 const deleteRow = async (row: User) => {
-    const res = await deleteUser({ username: row.username });
-    if (res.status === 200) {
-        ElMessage.success("删除成功");
-        await getTableData();
-    }
+    ElMessageBox.confirm(
+        '此操作将永久删除该用户, 是否继续?',
+        'Warning',
+        {
+            confirmButtonText: 'OK',
+            cancelButtonText: 'Cancel',
+            type: 'warning',
+        }
+    )
+        .then(async () => {
+            const res = await deleteUser({ username: row.username });
+            if (res.data.code === 1000) {
+                ElMessage({
+                    type: 'success',
+                    message: '用户删除成功',
+                })
+                await getTableData();
+            } else {
+                ElMessage({
+                    type: 'error',
+                    message: '用户删除失败',
+                })
+            }
+        })
+        .catch(() => {
+            ElMessage({
+                type: 'info',
+                message: '取消删除用户',
+            })
+        })
 };
 
-interface RoleOption {
+interface RolesOption {
     label: string;
     value: string;
 }
 
 const addUser = async () => {
+    addDialog.value = true;
     const res = await getRoles();
     if (res.data.code === 1000) {
         // 将数组转换为{label: '角色名称', value: '角色名称'}
-        optionRoles.value = res.data.data.data.map((role: any) => ({ label: role, value: role }));
+        optionroles.value = res.data.data.data.map((roles: any) => ({ label: roles, value: roles }));
     }
-    addDialog.value = true;
 };
 
 
@@ -214,6 +247,12 @@ const editRow = async (row: User) => {
         editForm.email = res.data.data.data[0].email;
         editForm.phone = res.data.data.data[0].phone;
         editForm.password = res.data.data.data[0].password;
+        editForm.roles = res.data.data.data[0].roles;
+    }
+    const roles = await getRoles();
+    if (roles.data.code === 1000) {
+        // 将数组转换为{label: '角色名称', value: '角色名称'}
+        optionroles.value = roles.data.data.data.map((roles: any) => ({ label: roles, value: roles }));
     }
 };
 
@@ -231,6 +270,7 @@ const editForm = reactive({
     email: "",
     phone: "",
     password: "",
+    roles: [],
 });
 
 const cancelFormAdd = async () => {
