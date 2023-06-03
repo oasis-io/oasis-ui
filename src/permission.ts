@@ -5,32 +5,54 @@ import { useRouterStore } from "./store/router";
 const getRouter = async (userStore: any) => {
   const routerStore = useRouterStore();
   await routerStore.SetAsyncRouter();
-  await userStore.GetUserInfo()
+  await userStore.GetUserInfo();
   const asyncRouters = routerStore.asyncRouters;
   asyncRouters.forEach((asyncRouter) => {
     router.addRoute(asyncRouter);
   });
 };
 
-router.beforeEach(async (to, from) => {
+// router.beforeEach(async (to, from) => {
+//   const userStore = useUserStore();
+//   const token = userStore.token;
+//   const routerStore = useRouterStore();
+
+//   if (
+//     // 检查用户是否已登录
+//     !token &&
+//     // 避免无限重定向
+//     to.name !== "Login"
+//   ) {
+//     // 将用户重定向到登录页面
+//     return { name: "Login" };
+//   } else {
+//     if(token) {
+//        if (routerStore.asyncRouterCount === 0) {
+//         await getRouter(userStore)
+//         router.replace(to.path);
+//       }
+//     }
+//   }
+// });
+router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore();
   const token = userStore.token;
   const routerStore = useRouterStore();
 
-  if (
-    // 检查用户是否已登录
-    !token &&
-    // 避免无限重定向
-    to.name !== "Login"
-  ) {
+  // 检查用户是否已登录, 避免无限重定向
+  if (!token && to.name !== "Login") {
     // 将用户重定向到登录页面
-    return { name: "Login" };
+    next({ name: "Login" });
   } else {
-    if(token) {
-       if (routerStore.asyncRouterCount === 0) {
-        await getRouter(userStore)
-        router.replace(to.path);
-      }     
+    if (token) {
+      if (routerStore.asyncRouterCount === 0) {
+        await getRouter(userStore);
+        next(to.path); // Use `next` instead of `router.replace`
+      } else {
+        next();
+      }
+    } else {
+      next();
     }
   }
 });

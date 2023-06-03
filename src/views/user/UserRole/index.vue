@@ -1,4 +1,5 @@
 <template>
+  <div class="authority">
   <div class="table-box">
     <div class="button-left">
       <el-button type="primary" icon="plus" @click.prevent="addRole">新增角色</el-button>
@@ -22,7 +23,7 @@
         <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px" style="max-width: 380px"
           class="demo-ruleForm">
           <el-form-item label="角色名" prop="name">
-            <el-input v-model="addForm.name" maxlength="30" show-word-limit placeholder="请输入用户名" />
+            <el-input v-model="addForm.name" maxlength="30" show-word-limit placeholder="请输入角色名" />
           </el-form-item>
         </el-form>
       </div>
@@ -33,25 +34,26 @@
         </span>
       </template>
     </el-dialog>
-    <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="60%" title="角色配置">
+    <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="40%" title="角色配置">
       <el-tabs :before-leave="autoEnter" type="border-card">
         <el-tab-pane label="菜单权限">
           <Menus ref="menus" :row="activeRow" @changeRow="changeRow" />
-        </el-tab-pane>
-        <el-tab-pane label="api权限">
+        </el-tab-pane> 
+        <el-tab-pane label="API权限">
           <Apis ref="apis" :row="activeRow" @changeRow="changeRow" />
-        </el-tab-pane>
+        </el-tab-pane>            
       </el-tabs>
     </el-drawer>    
   </div>
+</div>
 </template>
   
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { getRoleList, createRole, updateRole, deleteRole, User, Role } from "@/api/user"
+import { getRoleList, createRole, updateRole, deleteRole, Role } from "@/api/user"
 
-// import Menus from './components/Apis.vue'
+import Menus from './components/Menus.vue'
 import Apis from './components/Apis.vue'
 
 const total = ref(0)
@@ -70,7 +72,15 @@ const addDialog = ref(false);
 const editDialog = ref(false);
 
 const drawer = ref(false)
-const activeRow = ref({})
+
+
+interface User {
+  name: string,
+  age: number,
+  // 其他属性
+}
+
+const activeRow = ref<User>({ name: '', age: 0 });
 
 const rules = reactive({
   name: [{ required: true, trigger: 'blur' }],
@@ -101,9 +111,11 @@ getTableData()
 const autoEnter = () => {
 
 }
-const changeRow = () => {
 
-}
+const changeRow = (key: string, value: any) => {
+  (activeRow.value as Record<string, any>)[key] = value;
+};
+
 const menus = ref(null)
 const apis = ref(null)
 
@@ -206,3 +218,20 @@ const submitEdit = async () => {
 
 </script>
   
+
+<style lang="scss">
+.authority {
+  .el-input-number {
+    margin-left: 15px;
+    span {
+      display: none;
+    }
+  }
+}
+
+.tree-content{
+  margin-top: 10px;
+  height: calc(100vh - 148px);
+  overflow: auto;
+}
+</style>

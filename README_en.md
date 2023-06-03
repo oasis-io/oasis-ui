@@ -6,4 +6,4 @@ English | [简体中文](README.md)
 
 
 ## Introduction
-  This is the UI library of Oasis, based on the [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin.git) open source project.
+  This is the UI library of [Oasis](https://github.com/oasis-io/oasis.git), based on the [gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin.git) open source project.
