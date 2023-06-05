@@ -4,16 +4,16 @@
             <el-button type="primary" icon="plus" @click="addUser">新增用户</el-button>
         </div>
         <el-table :data="tableData" style="width: 100%">
-            <el-table-column align="left" prop="username" label="用户名" />
-            <el-table-column align="left" prop="email" label="邮箱" width="180" />
-            <el-table-column align="left" prop="phone" label="手机号" />
-            <el-table-column align="left" label="角色">
+            <el-table-column align="left" prop="username" min-width="150" label="用户名" />
+            <el-table-column align="left" prop="email" min-width="180" label="邮箱" />
+            <el-table-column align="left" prop="phone" min-width="180" label="手机号" />
+            <el-table-column align="left" min-width="120" label="角色">
                 <template #default="scope">
                     <span v-for="(roles, index) in scope.row.roles" :key="index">{{ roles.name }}<span
                             v-if="index !== scope.row.roles.length - 1">, </span></span>
                 </template>
             </el-table-column>
-            <el-table-column align="left" label="操作" width="180">
+            <el-table-column  label="操作" min-width="249" fixed="right">
                 <template #default="scope">
                     <el-button icon="edit" type="primary" link @click.prevent="editRow(scope.row)"
                         v-if="scope.row.username !== 'admin'">
@@ -23,10 +23,13 @@
                         v-if="scope.row.username !== 'admin'">
                         删除
                     </el-button>
+                    <el-button icon="delete" type="primary" link @click.prevent="passwordRow(scope.row)">
+                        修改密码
+                    </el-button>
                 </template>
             </el-table-column>
         </el-table>
-        <div class="pagination">
+        <div class=" pagination">
             <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 50, 100]"
                 :small="small" :disabled="disabled" :background="background"
                 layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
@@ -43,7 +46,7 @@
                         <el-input v-model="addForm.email" maxlength="30" show-word-limit placeholder="请输入邮件" />
                     </el-form-item>
                     <el-form-item label="手机号" prop="phone">
-                        <el-input v-model="addForm.phone" maxlength="30" show-word-limit placeholder="请输入手机号" />
+                        <el-input v-model="addForm.phone" maxlength="18" show-word-limit placeholder="请输入手机号" />
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
                         <el-input v-model="addForm.password" placeholder="请输入密码" autocomplete="off" type="password"
@@ -80,7 +83,7 @@
                         <el-input v-model="editForm.email" maxlength="30" show-word-limit placeholder="请输入邮件" />
                     </el-form-item>
                     <el-form-item label="手机号" prop="phone">
-                        <el-input v-model="editForm.phone" maxlength="30" show-word-limit placeholder="请输入手机号" />
+                        <el-input v-model="editForm.phone" maxlength="18" show-word-limit placeholder="请输入手机号" />
                     </el-form-item>
                     <el-form-item label="角色" prop="roles">
                         <el-select v-model="editForm.roles" multiple clearable style="width: 100%" placeholder="请选择角色">
@@ -88,15 +91,33 @@
                                 :value="item.value" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="密码" prop="password">
-                        <el-input v-model="editForm.password" placeholder="请输入密码" autocomplete="off" type="password" />
-                    </el-form-item>
                 </el-form>
             </div>
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="cancelFormEdit">关闭</el-button>
                     <el-button type="primary" @click="submitFormEdit">提交</el-button>
+                </span>
+            </template>
+        </el-dialog>
+        <el-dialog v-model="passDialog" title="修改密码" width="40%">
+            <div>
+                <el-form ref="passFormRef" :model="passForm" status-icon :rules="passRules" label-width="120px"
+                    style="max-width: 380px" class="demo-ruleForm">
+                    <el-form-item label="密码" prop="password">
+                        <el-input v-model="passForm.password" placeholder="请输入密码" autocomplete="off" type="password"
+                            show-password />
+                    </el-form-item>
+                    <el-form-item label="确认密码" prop="checkPass">
+                        <el-input v-model="passForm.checkPass" placeholder="请再次输入密码" autocomplete="off" type="password"
+                            show-password />
+                    </el-form-item>
+                </el-form>
+            </div>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="cancelFormPass">关闭</el-button>
+                    <el-button type="primary" @click="submitFormPass">提交</el-button>
                 </span>
             </template>
         </el-dialog>
@@ -114,6 +135,7 @@ import {
     deleteUser,
     User,
     getRoles,
+    updatePassword,
 } from "@/api/user";
 
 const total = ref(0);
@@ -127,9 +149,11 @@ const disabled = ref(false);
 
 const addFormRef = ref();
 const editFormRef = ref();
+const passFormRef = ref()
 
 const addDialog = ref(false);
 const editDialog = ref(false);
+const passDialog = ref(false);
 
 const optionroles = ref<RolesOption[]>([]);
 
@@ -155,6 +179,30 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
         callback();
     }
 };
+
+const validatePass2Pass = (rule: any, value: any, callback: any) => {
+    if (value === '') {
+        callback(new Error('请再次输入密码'));
+    } else if (value !== passForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+    } else {
+        callback();
+    }
+};
+
+
+const passRules = reactive({
+    password: [
+        { required: true, trigger: "blur" },
+        { required: true, min: 6, trigger: "blur" },
+    ],
+    checkPass: [
+        { required: true, trigger: "blur" },
+        { required: true, min: 6, trigger: "blur" },
+        { validator: validatePass2Pass, trigger: 'blur' },
+    ],
+});
+
 
 const rules = reactive({
     username: [{ required: true, trigger: "blur" }],
@@ -224,6 +272,12 @@ const deleteRow = async (row: User) => {
         })
 };
 
+
+const passwordRow = async (row: User) => {
+    passForm.username = row.username;
+    passDialog.value = true;
+}
+
 interface RolesOption {
     label: string;
     value: string;
@@ -273,25 +327,16 @@ const editForm = reactive({
     roles: [],
 });
 
+
+const passForm = reactive({
+    username: "",
+    password: "",
+    checkPass: "",
+});
+
 const cancelFormAdd = async () => {
     addFormRef.value.resetFields();
     addDialog.value = false;
-};
-
-const submitFormAdd = async () => {
-    addFormRef.value.validate(async (valid: boolean) => {
-        if (valid) {
-            const res = await createUser(addForm);
-            if (res.data.code === 1000) {
-                ElMessage({ type: "success", message: "用户创建成功" });
-                await getTableData();
-                cancelFormAdd();
-            } else {
-                ElMessage({ type: "error", message: "用户创建失败" });
-            }
-            addDialog.value = false;
-        }
-    });
 };
 
 const cancelFormEdit = async () => {
@@ -299,19 +344,35 @@ const cancelFormEdit = async () => {
     editDialog.value = false;
 };
 
-const submitFormEdit = async () => {
-    editFormRef.value.validate(async (valid: boolean) => {
+const cancelFormPass = async () => {
+    passFormRef.value.resetFields();
+    passDialog.value = false;  
+}
+
+const handleForm = async (formRef: any, formData: any, successMessage: string, failMessage: string, submitFunc: any, callback: any) => {
+    formRef.value.validate(async (valid: boolean) => {
         if (valid) {
-            const res = await updateUser(editForm);
+            const res = await submitFunc(formData);
             if (res.data.code === 1000) {
-                ElMessage({ type: "success", message: "用户修改成功" });
-                cancelFormEdit();
+                ElMessage({ type: "success", message: successMessage });
+                callback();
                 await getTableData();
             } else {
-                ElMessage({ type: "error", message: "用户修改失败" });
+                ElMessage({ type: "error", message: failMessage });
             }
-            editDialog.value = false;
         }
     });
+};
+
+const submitFormAdd = async () => {
+    await handleForm(addFormRef, addForm, "用户创建成功", "用户创建失败", createUser, cancelFormAdd);
+};
+
+const submitFormEdit = async () => {
+    await handleForm(editFormRef, editForm, "用户修改成功", "用户修改失败", updateUser, cancelFormEdit);
+};
+
+const submitFormPass = async () => {
+    await handleForm(passFormRef, passForm, "用户密码修改成功", "用户密码修改失败", updatePassword, cancelFormPass);
 };
 </script>

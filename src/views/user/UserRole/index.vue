@@ -1,51 +1,56 @@
 <template>
   <div class="authority">
-  <div class="table-box">
-    <div class="button-left">
-      <el-button type="primary" icon="plus" @click.prevent="addRole">新增角色</el-button>
-    </div>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column align="left" prop="name" label="角色名" width="180" />
-      <el-table-column align="left" label="操作" width="738">
-        <template #default="scope">
-          <el-button icon="setting" type="primary" link @click.prevent="editRow(scope.row)">设置权限</el-button>
-          <el-button icon="delete" type="primary" link @click.prevent="deleteRow(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="pagination">
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
-        :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
-        :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
-    </div>
-    <el-dialog v-model="addDialog" title="创建角色" width="40%">
-      <div>
-        <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px" style="max-width: 380px"
-          class="demo-ruleForm">
-          <el-form-item label="角色名" prop="name">
-            <el-input v-model="addForm.name" maxlength="30" show-word-limit placeholder="请输入角色名" />
-          </el-form-item>
-        </el-form>
+    <div class="table-box">
+      <div class="button-left">
+        <el-button type="primary" icon="plus" @click.prevent="addRole">新增角色</el-button>
       </div>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cancelForm">关闭</el-button>
-          <el-button type="primary" @click="submitForm">提交</el-button>
-        </span>
-      </template>
-    </el-dialog>
-    <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="40%" title="角色配置">
-      <el-tabs :before-leave="autoEnter" type="border-card">
-        <el-tab-pane label="菜单权限">
-          <Menus ref="menus" :row="activeRow" @changeRow="changeRow" />
-        </el-tab-pane> 
-        <el-tab-pane label="API权限">
-          <Apis ref="apis" :row="activeRow" @changeRow="changeRow" />
-        </el-tab-pane>            
-      </el-tabs>
-    </el-drawer>    
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column align="left" prop="name" label="角色名" width="180" />
+        <el-table-column align="left" prop="desc" label="描述" width="380" />
+        <el-table-column align="left" label="操作" width="358">
+          <template #default="scope">
+            <el-button icon="setting" type="primary" link @click.prevent="editRow(scope.row)">设置权限</el-button>
+            <el-button icon="delete" type="primary" link @click.prevent="deleteRow(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
+        <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+          :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
+          :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+      </div>
+      <el-dialog v-model="addDialog" title="创建角色" width="40%">
+        <div>
+          <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px"
+            style="max-width: 380px" class="demo-ruleForm">
+            <el-form-item label="角色名" prop="name">
+              <el-input v-model="addForm.name" maxlength="30" show-word-limit placeholder="请输入角色名" />
+            </el-form-item>
+            <el-form-item label="角色描述" prop="desc">
+              <el-input v-model="addForm.desc" maxlength="50" :rows="5" type="textarea" show-word-limit
+                placeholder="请输入角色描述" />
+            </el-form-item>
+          </el-form>
+        </div>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="cancelForm">关闭</el-button>
+            <el-button type="primary" @click="submitForm">提交</el-button>
+          </span>
+        </template>
+      </el-dialog>
+      <el-drawer v-if="drawer" v-model="drawer" custom-class="auth-drawer" :with-header="false" size="40%" title="角色配置">
+        <el-tabs :before-leave="autoEnter" type="border-card">
+          <el-tab-pane label="菜单权限">
+            <Menus ref="menus" :row="activeRow" @changeRow="changeRow" />
+          </el-tab-pane>
+          <el-tab-pane label="API权限">
+            <Apis ref="apis" :row="activeRow" @changeRow="changeRow" />
+          </el-tab-pane>
+        </el-tabs>
+      </el-drawer>
+    </div>
   </div>
-</div>
 </template>
   
 <script lang="ts" setup>
@@ -165,11 +170,13 @@ const editRow = async (row: any) => {
 
 const addForm = reactive({
   name: '',
+  desc: '',
 });
 
 
 const editForm = reactive({
   name: '',
+  desc: '',
 })
 
 
@@ -223,13 +230,14 @@ const submitEdit = async () => {
 .authority {
   .el-input-number {
     margin-left: 15px;
+
     span {
       display: none;
     }
   }
 }
 
-.tree-content{
+.tree-content {
   margin-top: 10px;
   height: calc(100vh - 148px);
   overflow: auto;

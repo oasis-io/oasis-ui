@@ -17,7 +17,6 @@ export interface User {
     phone: string;
 }
 
-
 export interface Role {
     name: string;
 }
@@ -33,7 +32,7 @@ export const login = (data: any) => {
 
 export const getUserInfo = () => {
     return service({
-        url: `/user/info`,
+        url: `/user`,
         method: 'get',
     })
 }
@@ -88,6 +87,14 @@ export const deleteUser = (data: any ) => {
     })
 }    
 
+
+export const updatePassword = (data: any ) => {
+    return service({
+        url: `/user/password`,
+        method: 'patch',
+        data: data
+    })
+}   
 
 // User Role
 export const getRoles = () => {

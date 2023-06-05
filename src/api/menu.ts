@@ -23,6 +23,16 @@ export const getMenuAuthorized = (data: any) => {
   })
 }
 
+export const getMenuApiAuthorized = (data: any) => {
+  return service({
+    url: '/menu/getMenuApiAuthorized',
+    method: 'post',
+    data
+  })
+}
+
+
+
 export const AddMenuPermissions = (data: any) => {
   return service({
     url: "/menu/permissions",
