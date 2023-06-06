@@ -5,9 +5,9 @@
         <el-button type="primary" icon="plus" @click.prevent="addRole">新增角色</el-button>
       </div>
       <el-table :data="tableData" style="width: 100%">
-        <el-table-column align="left" prop="name" label="角色名" width="180" />
-        <el-table-column align="left" prop="desc" label="描述" width="380" />
-        <el-table-column align="left" label="操作" width="358">
+        <el-table-column align="left" prop="name" label="角色名" min-width="150" />
+        <el-table-column align="left" prop="desc" label="描述" min-width="180" />
+        <el-table-column align="left" label="操作" min-width="200">
           <template #default="scope">
             <el-button icon="setting" type="primary" link @click.prevent="editRow(scope.row)">设置权限</el-button>
             <el-button icon="delete" type="primary" link @click.prevent="deleteRow(scope.row)">删除</el-button>

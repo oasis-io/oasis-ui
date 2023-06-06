@@ -14,7 +14,6 @@ export const getBaseMenuTree = () => {
   });
 };
 
-
 export const getMenuAuthorized = (data: any) => {
   return service({
     url: '/menu/getMenuAuthorized',
@@ -30,8 +29,6 @@ export const getMenuApiAuthorized = (data: any) => {
     data
   })
 }
-
-
 
 export const AddMenuPermissions = (data: any) => {
   return service({

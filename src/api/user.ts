@@ -21,6 +21,11 @@ export interface Role {
     name: string;
 }
 
+
+export interface UserGroup {
+    name: string;
+}
+
 export const login = (data: any) => {
     return service({
         url: `/user/login`,

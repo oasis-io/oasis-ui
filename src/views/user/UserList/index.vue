@@ -23,7 +23,7 @@
                         v-if="scope.row.username !== 'admin'">
                         删除
                     </el-button>
-                    <el-button icon="delete" type="primary" link @click.prevent="passwordRow(scope.row)">
+                    <el-button icon="Lock" type="primary" link @click.prevent="passwordRow(scope.row)">
                         修改密码
                     </el-button>
                 </template>
