@@ -11,8 +11,8 @@
 ### 运行
 
 ```
-node版本 >= v18.16
-IDE推荐：VS Code
+Node.js: >= v18.16
+IDE：VS Code
 ```
 
 ```bash
