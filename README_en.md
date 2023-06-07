@@ -10,7 +10,12 @@ English | [简体中文](README.md)
 
 
 
-## Run Code
+### Run Code
+
+```
+Node.js: >= v18.16
+IDE：VS Code
+```
 
 ```bash
 git clone https://github.com/oasis-io/oasis-ui.git

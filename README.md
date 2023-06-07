@@ -8,7 +8,12 @@
   这是[Oasis](https://github.com/oasis-io/oasis.git)的UI库，基于[gin-vue-admin](https://github.com/flipped-aurora/gin-vue-admin.git)开源项目实现。
 
 
-## 运行代码
+### 运行
+
+```
+node版本 >= v18.16
+IDE推荐：VS Code
+```
 
 ```bash
 git clone https://github.com/oasis-io/oasis-ui.git
