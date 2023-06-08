@@ -1,7 +1,7 @@
 <template>
     <div class="dashboard-container">
         <div class="header-card">
-            <el-card class="content-card" style="height: 100px; background-color: #256D7B;">
+            <el-card class="content-card" style="height: 100px; background-color: #34495E;">
                 <div class="text-space-between" slot="header">
                     <h2 style="color: #fff;">Welcome to Oasis</h2>
                     <div class="help-and-docs">
@@ -17,55 +17,52 @@
             </el-card>
         </div>
         <div class="status-cards">
-            <el-card class="system-status-card" style="background-color: #FFFFFF;">
+            <el-card class="system-status-card" style="background-color: #FFFFFF; box-shadow: 0px 0px 10px rgba(38,109,123,0.1); border-radius: 5px;">
                 <template #header>
-                    <div class="card-header" style="color: #256D7B; font-size: 1.25em;">
+                    <div class="card-header" style="color: #34495E; font-size: 1.25em;">
                         系统信息
                     </div>
                 </template>
             </el-card>
             <div class="additional-status-cards">
                 <div class="status-card-pair">
-                    <el-card class="status-card" style="background-color: #89C4C9;">
+                    <el-card class="status-card" style="background-color: #FFFFFF; box-shadow: 0px 0px 10px rgba(38,109,123,0.1); border-radius: 5px;">
                         <div slot="header">
-                            <span>运行时间：245d</span>
+                            <span style="color: #34495E;">运行时间：245d</span>
                         </div>
                     </el-card>
-                    <el-card class="status-card" style="background-color: #89C4C9;">
+                    <el-card class="status-card" style="background-color: #FFFFFF; box-shadow: 0px 0px 10px rgba(38,109,123,0.1); border-radius: 5px;">
                         <div slot="header">
-                            <span>用户数：8</span>
+                            <span style="color: #34495E;">用户数：8</span>
                         </div>
                     </el-card>
                 </div>
                 <div class="status-card-pair">
-                    <el-card class="status-card" style="background-color: #89C4C9;">
+                    <el-card class="status-card" style="background-color: #FFFFFF; box-shadow: 0px 0px 10px rgba(38,109,123,0.1); border-radius: 5px;">
                         <div slot="header">
-                            <span>实例数：264</span>
+                            <span style="color: #34495E;">实例数：264</span>
                         </div>
                     </el-card>
-                    <el-card class="status-card" style="background-color: #89C4C9;">
+                    <el-card class="status-card" style="background-color: #FFFFFF; box-shadow: 0px 0px 10px rgba(38,109,123,0.1); border-radius: 5px;">
                         <div slot="header">
-                            <span>正在登陆：2</span>
+                            <span style="color: #34495E;">正在登陆：2</span>
                         </div>
                     </el-card>
                 </div>
             </div>
         </div>
         <div class="announcement-section">
-            <el-card class="content-card" style="height: 300px; background-color: #B5DEE1;">
+            <el-card class="content-card" style="height: 300px; background-color: #FFFFFF; box-shadow: 0px 0px 10px rgba(38,109,123,0.1); border-radius: 5px;">
                 <div slot="header">
-                    <h2 style="color: #256D7B;">通知</h2>
+                    <h2 style="color: #34495E;">通知</h2>
                 </div>
                 <div>
-                    <p>这里是你的通知内容。</p>
+                    <p style="color: #34495E;">这里是你的通知内容。</p>
                 </div>
             </el-card>
         </div>
     </div>
 </template>
-
-
-
 
 <script setup lang="ts">
 import { ElCard } from 'element-plus';
