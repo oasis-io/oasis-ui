@@ -17,33 +17,33 @@
             </el-card>
         </div>
         <div class="status-cards">
-            <el-card class="system-status-card" style="background-color: #7DBBC3;">
+            <el-card class="system-status-card" style="background-color: #FFFFFF;">
                 <template #header>
-                    <div class="card-header">
+                    <div class="card-header" style="color: #256D7B; font-size: 1.25em;">
                         系统信息
                     </div>
                 </template>
             </el-card>
             <div class="additional-status-cards">
                 <div class="status-card-pair">
-                    <el-card class="status-card" style="background-color: #B5DEE1;">
+                    <el-card class="status-card" style="background-color: #89C4C9;">
                         <div slot="header">
                             <span>运行时间：245d</span>
                         </div>
                     </el-card>
-                    <el-card class="status-card" style="background-color: #B5DEE1;">
+                    <el-card class="status-card" style="background-color: #89C4C9;">
                         <div slot="header">
                             <span>用户数：8</span>
                         </div>
                     </el-card>
                 </div>
                 <div class="status-card-pair">
-                    <el-card class="status-card" style="background-color: #B5DEE1;">
+                    <el-card class="status-card" style="background-color: #89C4C9;">
                         <div slot="header">
                             <span>实例数：264</span>
                         </div>
                     </el-card>
-                    <el-card class="status-card" style="background-color: #B5DEE1;">
+                    <el-card class="status-card" style="background-color: #89C4C9;">
                         <div slot="header">
                             <span>正在登陆：2</span>
                         </div>
@@ -52,9 +52,9 @@
             </div>
         </div>
         <div class="announcement-section">
-            <el-card class="content-card" style="height: 300px; background-color: #E8F6F3;">
+            <el-card class="content-card" style="height: 300px; background-color: #B5DEE1;">
                 <div slot="header">
-                    <h2>通知</h2>
+                    <h2 style="color: #256D7B;">通知</h2>
                 </div>
                 <div>
                     <p>这里是你的通知内容。</p>
@@ -63,6 +63,8 @@
         </div>
     </div>
 </template>
+
+
 
 
 <script setup lang="ts">
