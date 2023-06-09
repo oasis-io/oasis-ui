@@ -5,9 +5,9 @@
         </div>
         <el-table :data="tableData" style="width: 100%">
             <el-table-column align="left" prop="username" min-width="150" label="用户名" />
-            <el-table-column align="left" prop="email" min-width="180" label="邮箱" />
-            <el-table-column align="left" prop="phone" min-width="180" label="手机号" />
-            <el-table-column align="left" min-width="120" label="角色">
+            <el-table-column align="left" prop="email" min-width="180" label="邮箱" show-overflow-tooltip/>
+            <el-table-column align="left" prop="phone" min-width="150" label="手机号" />
+            <el-table-column align="left" min-width="180" label="角色"  show-overflow-tooltip>
                 <template #default="scope">
                     <span v-for="(roles, index) in scope.row.roles" :key="index">{{ roles.name }}<span
                             v-if="index !== scope.row.roles.length - 1">, </span></span>
@@ -40,7 +40,7 @@
                 <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px"
                     style="max-width: 380px" class="demo-ruleForm">
                     <el-form-item label="用户名" prop="username">
-                        <el-input v-model="addForm.username" maxlength="30" show-word-limit placeholder="请输入用户名" />
+                        <el-input v-model="addForm.username" maxlength="18" show-word-limit placeholder="请输入用户名" />
                     </el-form-item>
                     <el-form-item label="邮件" prop="email">
                         <el-input v-model="addForm.email" maxlength="30" show-word-limit placeholder="请输入邮件" />
@@ -76,7 +76,7 @@
                 <el-form ref="editFormRef" :model="editForm" status-icon :rules="rules" label-width="120px"
                     style="max-width: 380px" class="demo-ruleForm">
                     <el-form-item label="用户名" prop="username">
-                        <el-input v-model="editForm.username" disabled maxlength="50" show-word-limit
+                        <el-input v-model="editForm.username" disabled maxlength="18" show-word-limit
                             placeholder="请输入用户名" />
                     </el-form-item>
                     <el-form-item label="邮件" prop="email">
@@ -194,11 +194,11 @@ const validatePass2Pass = (rule: any, value: any, callback: any) => {
 const passRules = reactive({
     password: [
         { required: true, trigger: "blur" },
-        { required: true, min: 6, trigger: "blur" },
+        { required: true, min: 6,max: 30, trigger: "blur" },
     ],
     checkPass: [
         { required: true, trigger: "blur" },
-        { required: true, min: 6, trigger: "blur" },
+        { required: true, min: 6,max: 30, trigger: "blur" },
         { validator: validatePass2Pass, trigger: 'blur' },
     ],
 });
@@ -206,8 +206,8 @@ const passRules = reactive({
 
 const rules = reactive({
     username: [{ required: true, trigger: "blur" }],
-    password: [{ validator: validatePass }, { required: true, min: 6, trigger: "blur" }],
-    checkPass: [{ validator: validatePass2 }, { required: true, min: 6, trigger: "blur" }],
+    password: [{ validator: validatePass }, { required: true, min: 6, max: 30, trigger: "blur" }],
+    checkPass: [{ validator: validatePass2 }, { required: true, min: 6, max: 30,trigger: "blur" }],
 });
 
 const handleSizeChange = (val: number) => {
@@ -292,7 +292,6 @@ const addUser = async () => {
     }
 };
 
-
 const editRow = async (row: User) => {
     editDialog.value = true;
     const res = await getUser({ username: row.username });
@@ -300,8 +299,9 @@ const editRow = async (row: User) => {
         editForm.username = res.data.data.data[0].username;
         editForm.email = res.data.data.data[0].email;
         editForm.phone = res.data.data.data[0].phone;
+        console.log(res.data.data.data[0].password)
         editForm.password = res.data.data.data[0].password;
-        editForm.roles = res.data.data.data[0].roles;
+        editForm.roles = res.data.data.data[0].roles.map((role: any) => role.name);
     }
     const roles = await getRoles();
     if (roles.data.code === 1000) {

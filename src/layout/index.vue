@@ -11,8 +11,7 @@
         <el-main class="main-cont">
           <transition mode="out-in" name="el-fade-in-linear">
             <keep-alive>
-              <router-view>
-              </router-view>
+              <router-view/>
             </keep-alive>
           </transition>
         </el-main>
