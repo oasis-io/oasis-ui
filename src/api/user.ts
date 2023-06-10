@@ -146,7 +146,7 @@ export const deleteRole = (data: any ) => {
 // User Group
 export const getGroupList = (data: any) => {
     return service({
-        url: `/group/list`,
+        url: `/user/group/list`,
         method: 'post',
         data: data
     })
@@ -154,7 +154,7 @@ export const getGroupList = (data: any) => {
 
 export const createGroup = (data: any ) => {
     return service({
-        url: `/group/add`,
+        url: `/user/group/add`,
         method: 'post',
         data: data
     })    
@@ -162,7 +162,7 @@ export const createGroup = (data: any ) => {
 
 export const updateGroup = (data: any) => {
     return service({
-        url: `/group`,
+        url: `/user/group`,
         method: 'patch',
         data: data
     })
@@ -170,7 +170,7 @@ export const updateGroup = (data: any) => {
 
 export const deleteGroup = (data: any ) => {
     return service({
-        url: `/group`,
+        url: `/user/group`,
         method: 'delete',
         data: data
     })
