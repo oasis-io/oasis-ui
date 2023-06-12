@@ -55,7 +55,7 @@ const formatCode = () => {
         const model = editor.getModel();
         if (model) {
             const fullText = model.getValue();
-            const formatted = format(fullText);
+            const formatted = format(fullText, { language: 'mysql', keywordCase: 'upper', useTabs: true }); 
             setEditorValue(formatted);
         }
     }

@@ -60,6 +60,14 @@ export const getUser = (data: any) => {
     })
 }
 
+
+export const getUsers = () => {
+    return service({
+        url: `/user/all`,
+        method: 'get',
+    })
+}
+
 export const getUserList = (data: any) => {
     return service({
         url: `/user/list`,
@@ -147,6 +155,14 @@ export const deleteRole = (data: any ) => {
 export const getGroupList = (data: any) => {
     return service({
         url: `/user/group/list`,
+        method: 'post',
+        data: data
+    })
+}
+
+export const getUserGroup = (data: any) => {
+    return service({
+        url: `/user/group`,
         method: 'post',
         data: data
     })

@@ -7,7 +7,7 @@
             <el-table-column align="left" prop="username" min-width="150" label="用户名" />
             <el-table-column align="left" prop="email" min-width="180" label="邮箱" show-overflow-tooltip/>
             <el-table-column align="left" prop="phone" min-width="150" label="手机号" />
-            <el-table-column align="left" min-width="180" label="角色"  show-overflow-tooltip>
+            <el-table-column align="left" min-width="180" label="角色" >
                 <template #default="scope">
                     <span v-for="(roles, index) in scope.row.roles" :key="index">{{ roles.name }}<span
                             v-if="index !== scope.row.roles.length - 1">, </span></span>
@@ -299,7 +299,6 @@ const editRow = async (row: User) => {
         editForm.username = res.data.data.data[0].username;
         editForm.email = res.data.data.data[0].email;
         editForm.phone = res.data.data.data[0].phone;
-        console.log(res.data.data.data[0].password)
         editForm.password = res.data.data.data[0].password;
         editForm.roles = res.data.data.data[0].roles.map((role: any) => role.name);
     }
