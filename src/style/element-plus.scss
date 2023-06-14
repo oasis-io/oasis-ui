@@ -5,33 +5,13 @@
   border-radius: 2px;
 }
 
+// 表格按钮
 .button-left {
   margin-bottom: 12px;
   display: flex;
   .el-button + .el-button {
     margin-left: 12px;
   }
-}
-
-.el-aside {
-  width: auto;
-}
-
-.el-header {
-  position: sticky;
-  top: 0;
-  background-color: #fff;
-}
-
-.el-main {
-  height: calc(100vh - 60px) !important;
-  overflow-y: auto;
-}
-
-.el-menu-cont {
-  height: 100vh;
-  border: none;
-  border-right-width: 0;
 }
 
 .pagination {

@@ -1,3 +1,5 @@
+// MonacoEditor.vue
+
 <template>
     <div ref="editorRef" class="monaco-editor"></div>
 </template>

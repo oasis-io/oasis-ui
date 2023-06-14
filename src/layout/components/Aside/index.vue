@@ -23,12 +23,19 @@ import { useRouterStore } from "@/store/router";
 import MenuItem from "./MenuItem.vue";
 
 
-const activeIndex = ref("0");
-
 // 侧边栏折叠
 const sidebar = useSidebarStore();
 const routerStore = useRouterStore();
 const router = useRouter();
+
+
+const activeIndex = ref(localStorage.getItem("activeIndex") || "0");
+
+
+watch(() => router.currentRoute.value, (newRoute) => {
+  activeIndex.value = newRoute.path;
+  localStorage.setItem("activeIndex", newRoute.path);
+});
 
 const MenuChange = (index: string) => {
   router.push({ path: index });
@@ -37,7 +44,11 @@ const MenuChange = (index: string) => {
 </script>
 
 <style lang="scss">
-.el-menu-item:hover {
+// .el-menu-item:hover {
+//   background-color: #1890ff;
+//   color: #fff;
+// }
+.el-menu-item.is-active {
   background-color: #1890ff;
   color: #fff;
 }

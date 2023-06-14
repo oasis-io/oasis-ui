@@ -32,8 +32,8 @@
             show-password
           ></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm" class="login-button"
+        <el-form-item style="margin-top: 20px"> 
+          <el-button type="primary" @click.prevent="submitForm" class="login-button"
             >登录</el-button
           >
         </el-form-item>

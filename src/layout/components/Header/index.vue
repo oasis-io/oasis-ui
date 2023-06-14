@@ -33,7 +33,6 @@
     </div>
 </template>
   
-  
 <script setup lang="ts">
 import { ref } from "vue";
 import { Fold, Expand, UserFilled, ArrowDown } from "@element-plus/icons-vue";
@@ -74,7 +73,6 @@ const handleCommand = (command: string) => {
     align-items: center;
     height: 100%;
     float: left;
-    // padding: 0 21px;
     cursor: pointer;
 }
 
@@ -84,7 +82,6 @@ const handleCommand = (command: string) => {
     align-items: center;
     height: 100%;
     float: right;
-    // padding: 0 21px;
     cursor: pointer;
 }
 </style>
