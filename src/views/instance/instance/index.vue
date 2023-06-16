@@ -1,103 +1,109 @@
 <template>
-  <div class="table-box">
-    <div class="button-left">
-      <el-button type="primary" icon="plus" @click="addIns">新增实例</el-button>
-    </div>
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column align="left" prop="name" label="实例名" />
-      <el-table-column align="left" prop="db_type" label="数据库类型" />
-      <el-table-column align="left" prop="host" label="数据库地址" />
-      <el-table-column align="left" prop="port" label="数据库端口" />
-      <el-table-column align="left" prop="user" label="连接用户" />
-      <el-table-column align="left" label="操作" width="180">
-        <template #default="scope">
-          <el-button link type="primary" size="small" @click.prevent="editIns(scope.row)">
-            编辑
-          </el-button>
-          <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.row)">
-            删除
-          </el-button>
-          <el-button link type="primary" size="small" @click.prevent="pingRow(scope.row)">
-            连接测试
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="pagination">
-      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
-        :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
-        :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
-    </div>
-    <el-dialog v-model="addInsDialog" title="创建实例" width="40%">
-      <div>
-        <el-form ref="insFormRef" :model="insForm" status-icon :rules="rules" label-width="120px" style="max-width: 380px"
-          class="demo-ruleForm">
-          <el-form-item label="实例名" prop="name">
-            <el-input v-model="insForm.name" maxlength="30" show-word-limit placeholder="请输入实例名" />
-          </el-form-item>
-          <el-form-item label="数据库类型" prop="db_type">
-            <!-- <el-input v-model="insForm.db_type" placeholder="请输入数据库类型" /> -->
-            <el-select v-model="insForm.db_type" placeholder="数据库类型">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="数据库地址" prop="host">
-            <el-input v-model="insForm.host" placeholder="请输入数据库地址" />
-          </el-form-item>
-          <el-form-item label="数据库端口" prop="port">
-            <el-input v-model="insForm.port" placeholder="请输入数据库端口" />
-          </el-form-item>
-          <el-form-item label="数据库用户" prop="user">
-            <el-input v-model="insForm.user" placeholder="请输入连接用户" />
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="insForm.password" placeholder="请输入密码" autocomplete="off" type="password" show-password />
-          </el-form-item>
-          <el-form-item label="确认密码" prop="checkPass">
-            <el-input v-model="insForm.checkPass" placeholder="请再次输入密码" autocomplete="off" type="password"
-              show-password />
-          </el-form-item>
-        </el-form>
+  <keep-alive>
+    <transition mode="out-in" name="el-fade-in-linear">
+      <div class="table-box">
+        <div class="button-left">
+          <el-button type="primary" icon="plus" @click="addIns">新增实例</el-button>
+        </div>
+        <el-table :data="tableData" style="width: 100%">
+          <el-table-column align="left" prop="name" label="实例名" />
+          <el-table-column align="left" prop="db_type" label="数据库类型" />
+          <el-table-column align="left" prop="host" label="数据库地址" />
+          <el-table-column align="left" prop="port" label="数据库端口" />
+          <el-table-column align="left" prop="user" label="连接用户" />
+          <el-table-column align="left" label="操作" width="180">
+            <template #default="scope">
+              <el-button link type="primary" size="small" @click.prevent="editIns(scope.row)">
+                编辑
+              </el-button>
+              <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.row)">
+                删除
+              </el-button>
+              <el-button link type="primary" size="small" @click.prevent="pingRow(scope.row)">
+                连接测试
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="pagination">
+          <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+            :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
+            :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+        </div>
+        <el-dialog v-model="addInsDialog" title="创建实例" width="40%">
+          <div>
+            <el-form ref="insFormRef" :model="insForm" status-icon :rules="rules" label-width="120px"
+              style="max-width: 380px" class="demo-ruleForm">
+              <el-form-item label="实例名" prop="name">
+                <el-input v-model="insForm.name" maxlength="30" show-word-limit placeholder="请输入实例名" />
+              </el-form-item>
+              <el-form-item label="数据库类型" prop="db_type">
+                <!-- <el-input v-model="insForm.db_type" placeholder="请输入数据库类型" /> -->
+                <el-select v-model="insForm.db_type" placeholder="数据库类型">
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                </el-select>
+              </el-form-item>
+              <el-form-item label="数据库地址" prop="host">
+                <el-input v-model="insForm.host" placeholder="请输入数据库地址" />
+              </el-form-item>
+              <el-form-item label="数据库端口" prop="port">
+                <el-input v-model="insForm.port" placeholder="请输入数据库端口" />
+              </el-form-item>
+              <el-form-item label="数据库用户" prop="user">
+                <el-input v-model="insForm.user" placeholder="请输入连接用户" />
+              </el-form-item>
+              <el-form-item label="密码" prop="password">
+                <el-input v-model="insForm.password" placeholder="请输入密码" autocomplete="off" type="password"
+                  show-password />
+              </el-form-item>
+              <el-form-item label="确认密码" prop="checkPass">
+                <el-input v-model="insForm.checkPass" placeholder="请再次输入密码" autocomplete="off" type="password"
+                  show-password />
+              </el-form-item>
+            </el-form>
+          </div>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="cancelForm">关闭</el-button>
+              <el-button type="primary" @click="submitForm">提交</el-button>
+            </span>
+          </template>
+        </el-dialog>
+        <el-dialog v-model="editInsDialog" title="修改实例" width="40%">
+          <div>
+            <el-form ref="editFormRef" :model="editForm" status-icon :rules="rules" label-width="120px"
+              style="max-width: 380px" class="demo-ruleForm">
+              <el-form-item label="实例名" prop="name">
+                <el-input v-model="editForm.name" disabled maxlength="50" show-word-limit placeholder="请输入实例名" />
+              </el-form-item>
+              <el-form-item label="数据库类型" prop="db_type">
+                <el-input v-model="editForm.db_type" disabled placeholder="请输入数据库类型" />
+              </el-form-item>
+              <el-form-item label="数据库地址" prop="host">
+                <el-input v-model="editForm.host" placeholder="请输入数据库地址" />
+              </el-form-item>
+              <el-form-item label="数据库端口" prop="port">
+                <el-input v-model="editForm.port" placeholder="请输入数据库端口" />
+              </el-form-item>
+              <el-form-item label="数据库用户" prop="user">
+                <el-input v-model="editForm.user" placeholder="请输入连接用户" />
+              </el-form-item>
+              <el-form-item label="密码" prop="password">
+                <el-input v-model="editForm.password" placeholder="请输入密码" autocomplete="off" type="password"
+                  show-password />
+              </el-form-item>
+            </el-form>
+          </div>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="cancelEdit">关闭</el-button>
+              <el-button type="primary" @click="submitEdit">提交</el-button>
+            </span>
+          </template>
+        </el-dialog>
       </div>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cancelForm">关闭</el-button>
-          <el-button type="primary" @click="submitForm">提交</el-button>
-        </span>
-      </template>
-    </el-dialog>
-    <el-dialog v-model="editInsDialog" title="修改实例" width="40%">
-      <div>
-        <el-form ref="editFormRef" :model="editForm" status-icon :rules="rules" label-width="120px"
-          style="max-width: 380px" class="demo-ruleForm">
-          <el-form-item label="实例名" prop="name">
-            <el-input v-model="editForm.name" disabled maxlength="50" show-word-limit placeholder="请输入实例名" />
-          </el-form-item>
-          <el-form-item label="数据库类型" prop="db_type">
-            <el-input v-model="editForm.db_type" disabled placeholder="请输入数据库类型" />
-          </el-form-item>
-          <el-form-item label="数据库地址" prop="host">
-            <el-input v-model="editForm.host" placeholder="请输入数据库地址" />
-          </el-form-item>
-          <el-form-item label="数据库端口" prop="port">
-            <el-input v-model="editForm.port" placeholder="请输入数据库端口" />
-          </el-form-item>
-          <el-form-item label="数据库用户" prop="user">
-            <el-input v-model="editForm.user" placeholder="请输入连接用户" />
-          </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input v-model="editForm.password" placeholder="请输入密码" autocomplete="off" type="password" show-password />
-          </el-form-item>
-        </el-form>
-      </div>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="cancelEdit">关闭</el-button>
-          <el-button type="primary" @click="submitEdit">提交</el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </div>
+    </transition>
+  </keep-alive>
 </template>
     
 <script lang="ts" setup>

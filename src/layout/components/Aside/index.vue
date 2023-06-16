@@ -44,10 +44,6 @@ const MenuChange = (index: string) => {
 </script>
 
 <style lang="scss">
-// .el-menu-item:hover {
-//   background-color: #1890ff;
-//   color: #fff;
-// }
 .el-menu-item.is-active {
   background-color: #1890ff;
   color: #fff;

@@ -1,4 +1,6 @@
 <template>
+        <keep-alive>
+    <transition mode="out-in" name="el-fade-in-linear">
   <div class="authority">
     <div class="table-box">
       <div class="button-left">
@@ -51,6 +53,8 @@
       </el-drawer>
     </div>
   </div>
+</transition>
+    </keep-alive>
 </template>
   
 <script lang="ts" setup>

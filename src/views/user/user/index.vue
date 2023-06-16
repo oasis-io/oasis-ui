@@ -1,4 +1,6 @@
 <template>
+      <keep-alive>
+    <transition mode="out-in" name="el-fade-in-linear">
     <div class="table-box">
         <div class="button-left">
             <el-button type="primary" icon="plus" @click="addUser">新增用户</el-button>
@@ -6,7 +8,7 @@
         <el-table :data="tableData" style="width: 100%">
             <el-table-column align="left" prop="username" min-width="150" label="用户名" />
             <el-table-column align="left" prop="email" min-width="180" label="邮箱" show-overflow-tooltip/>
-            <el-table-column align="left" prop="phone" min-width="150" label="手机号" />
+            <el-table-column align="left" prop="phone" min-width="180" label="手机号" />
             <el-table-column align="left" min-width="180" label="角色" >
                 <template #default="scope">
                     <span v-for="(roles, index) in scope.row.roles" :key="index">{{ roles.name }}<span
@@ -122,6 +124,8 @@
             </template>
         </el-dialog>
     </div>
+</transition>
+    </keep-alive>
 </template>
 
 <script lang="ts" setup>

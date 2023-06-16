@@ -15,4 +15,3 @@ import { useRouterStore } from '@/store/router'
 
 const routerStore = useRouterStore()
 </script>
-  
