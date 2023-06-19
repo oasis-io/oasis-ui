@@ -7,9 +7,9 @@
         </div>
         <el-table :data="tableData" style="width: 100%">
             <el-table-column align="left" prop="username" min-width="150" label="用户名" />
-            <el-table-column align="left" prop="email" min-width="180" label="邮箱" show-overflow-tooltip/>
-            <el-table-column align="left" prop="phone" min-width="180" label="手机号" />
-            <el-table-column align="left" min-width="180" label="角色" >
+            <el-table-column align="left" prop="email" min-width="150" label="邮箱" show-overflow-tooltip/>
+            <el-table-column align="left" prop="phone" min-width="150" label="手机号" />
+            <el-table-column align="left" min-width="150" label="角色" >
                 <template #default="scope">
                     <span v-for="(roles, index) in scope.row.roles" :key="index">{{ roles.name }}<span
                             v-if="index !== scope.row.roles.length - 1">, </span></span>

@@ -11,6 +11,7 @@
         highlight-current
         default-expand-all
         show-checkbox
+        node-key="onlyId"
         :default-checked-keys="defaultApiKey"
         :props="apiProps"
         :data="apiData"
@@ -34,6 +35,7 @@ const props = defineProps({
   },
 });
 
+
 interface ApiItem {
   id: number;
   create_time: string;
@@ -51,54 +53,32 @@ interface ApiGroup {
   children: ApiItem[];
 }
 
-// const treeRef = ref<ApiGroup | null>(null);
 const treeRef = ref<any | null>(null);
 const filterText = ref("");
 const apiData = ref<ApiGroup[]>([]);
-const defaultApiKey = ref([]);
+const defaultApiKey = ref<string[]>([]);
 const apiProps = ref({
   children: "children",
   label: "desc",
 });
 
 const init = async () => {
-  // 获得菜单数据
+  // 获取菜单数据
   const res = await getBaseMenuApi();
-  const apis: ApiItem[] = res.data.data.apis;
-  apiData.value = buildApiTree(apis);
+  const apis  = res.data.data;
+  apiData.value = apis;
+
+  // 获取已经授权的API
   const resAuthorized = await getMenuApiAuthorized({ name: props.row.name });
-  const apiAuthorized = resAuthorized.data.data.apis;
-  defaultApiKey.value = apiAuthorized
+  const apiAuthorized  = resAuthorized.data.data;
+
+  // 将已授权的API数据转化为onlyId的数组
+  defaultApiKey.value = apiAuthorized.flatMap((group: { children: any[]; }) => group.children.map(child => child.onlyId));
 };
+
 
 init();
 
-
-const buildApiTree = (apis: ApiItem[]): ApiGroup[] => {
-  let groupMap: Record<string, ApiItem[]> = {};
-
-  // 分组APIs
-  for (let api of apis) {
-    api.onlyId = "p:" + api.path + "m:" + api.method;
-    if (!groupMap[api.group]) {
-      groupMap[api.group] = [];
-    }
-    groupMap[api.group].push(api);
-  }
-
-  // 构造API树
-  let apiTree: ApiGroup[] = [];
-  for (let group in groupMap) {
-    const treeNode = {
-      ID: group,
-      desc: group + "组",
-      children: groupMap[group],
-    };
-    apiTree.push(treeNode);
-  }
-
-  return apiTree;
-};
 
 const handleCheckChange = async () => {};
 
