@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-import { getBaseMenuTree, AddMenuPermissions, getMenuAuthorized } from "@/api/menu";
+import { getBaseMenuTree, UpdateMenuPermissions, getMenuAuthorized } from "@/api/menu";
 
 const props = defineProps({
   row: {
@@ -38,7 +38,7 @@ const props = defineProps({
 const treeRef = ref<any | null>(null);
 const filterText = ref("");
 const menuData = ref([]);
-const defaultMenuKey = ref([]);
+const defaultMenuKey = ref<any[]>([]);
 const menuProps = ref({
   children: "children",
   label: function (data: any) {
@@ -46,26 +46,54 @@ const menuProps = ref({
   },
 });
 
+// Tree组件在父节点被选中，那么它的所有子节点也会被选中
+// 这里过滤下，防止全选
+const filterAuthorizedMenus = (menus: any) => {
+  const ids: any[] = [];
+
+  const traverse = (menus: any) => {
+    menus.forEach((menu: any) => {
+      if (menu.parentID !== "0" || (menu.parentID === "0" && menu.children === null)) {
+        ids.push(Number(menu.id));
+      }
+
+      // 如果菜单有子菜单，递归地访问这些子菜单
+      if (menu.children) {
+        traverse(menu.children);
+      }
+    });
+  };
+
+  traverse(menus);
+
+  return ids;
+};
+
+
+
 const init = async () => {
   // 获得菜单数据
   const resTree = await getBaseMenuTree();
   menuData.value = resTree.data.data.menus;
   const resAuthorized = await getMenuAuthorized({ name: props.row.name });
   const menus = resAuthorized.data.data.menus;
-  defaultMenuKey.value = menus.map((menu: { id: any; }) => menu.id)
+  defaultMenuKey.value = filterAuthorizedMenus(menus)
 };
 
 
 init();
 
-const handleCheckChange = async () => {};
+
+const handleCheckChange = async () => {
+  
+};
 
 const submit = async () => {
-  const checkedKeys = treeRef.value.getCheckedNodes();
+  const checkedKeys = treeRef.value.getCheckedKeys().concat(treeRef.value.getHalfCheckedKeys())
   const roleName = props.row.name;
 
   try {
-    const res = await AddMenuPermissions({
+    const res = await UpdateMenuPermissions({
       name: roleName,
       menus: checkedKeys,
     });
@@ -87,6 +115,7 @@ const submit = async () => {
     });
   }
 };
+
 </script>
 
 <style lang="scss" scoped>

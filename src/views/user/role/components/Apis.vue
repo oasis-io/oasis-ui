@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-import { getBaseMenuApi, AddApiPermissions, getMenuApiAuthorized } from "@/api/menu";
+import { getBaseMenuApi, UpdateApiPermissions, getMenuApiAuthorized, } from "@/api/menu";
 
 const props = defineProps({
   row: {
@@ -97,7 +97,7 @@ const submit = async () => {
   }));
 
   try {
-    const res = await AddApiPermissions({
+    const res = await UpdateApiPermissions({
       name: roleName,
       apis: filteredKeys,
     });

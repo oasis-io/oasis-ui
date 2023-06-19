@@ -30,7 +30,7 @@ export const getMenuApiAuthorized = (data: any) => {
   })
 }
 
-export const AddMenuPermissions = (data: any) => {
+export const UpdateMenuPermissions = (data: any) => {
   return service({
     url: "/menu/permissions",
     method: "post",
@@ -46,9 +46,9 @@ export const getBaseMenuApi = () => {
     });
   };
   
-  export const AddApiPermissions = (data: any) => {
+  export const UpdateApiPermissions = (data: any) => {
     return service({
-      url: "/menu/api",
+      url: "/menu/api/permissions",
       method: "post",
       data,
     });
