@@ -31,8 +31,8 @@ service.interceptors.response.use(
         if (error.response.data.code === 1002 ) {
             console.log("token is expired！")
             userStore.LoginOut()
-        } 
-       
+        }     
+        
         return error.response
     }
 )

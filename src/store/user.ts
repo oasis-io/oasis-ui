@@ -60,7 +60,7 @@ export const useUserStore = defineStore('user', () => {
             ElMessage.success('Login success!');
             return true
         } else {
-            ElMessage.error('Username or password is error!')
+            ElMessage.error(res.data.message)
         }
     }
 

@@ -1,13 +1,14 @@
 import service from "@/utils/request";
 
 export interface sql {
-    mysql: string
+    sql: string
 }
 
-export const myQuery = (data: any ) => {
+export const myQuery = (data: sql ) => {
     return service({
         url: `/sql/query`,
         method: 'post',
         data: data
     })    
 }
+

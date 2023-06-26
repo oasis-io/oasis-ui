@@ -10,6 +10,23 @@ export interface Instance {
     password: string,
 }
 
+
+export const getInstanceName = () => {
+    return service({
+        url: `/instance/name`,
+        method: 'get',
+    }) 
+}
+
+export const getInstanceDatabase = (data: any) => {
+    return service({
+        url: `/instance/database`,
+        method: 'post',
+        data: data,
+    }) 
+}
+
+
 export const getInstanceList = (data: any) => {
     return service({
         url: `/instance/list`,
@@ -18,7 +35,7 @@ export const getInstanceList = (data: any) => {
     })
 }
 
-export const getIns = (data: any) => {
+export const getInstance = (data: any) => {
     return service({
         url: `/instance`,
         method: 'post',
@@ -26,7 +43,7 @@ export const getIns = (data: any) => {
     })
 }
 
-export const createIns = (data: any ) => {
+export const createInstance = (data: any ) => {
     return service({
         url: `/instance/add`,
         method: 'post',
@@ -34,7 +51,7 @@ export const createIns = (data: any ) => {
     })    
 }
 
-export const updateIns = (data: any) => {
+export const updateInstance = (data: any) => {
     return service({
         url: `/instance`,
         method: 'patch',
@@ -42,7 +59,15 @@ export const updateIns = (data: any) => {
     })
 }
 
-export const deleteIns = (data: any ) => {
+export const updateInstancePassword = (data: any ) => {
+    return service({
+        url: `/instance/password`,
+        method: 'patch',
+        data: data
+    })
+}   
+
+export const deleteInstance = (data: any ) => {
     return service({
         url: `/instance`,
         method: 'delete',
@@ -50,7 +75,7 @@ export const deleteIns = (data: any ) => {
     })    
 }
 
-export const pingIns = (data: any) => {
+export const pingInstance = (data: any) => {
     return service({
         url: `/instance/ping`,
         method: 'post',

@@ -6,6 +6,7 @@
             <el-button type="primary" icon="plus" @click="addUser">新增用户</el-button>
         </div>
         <el-table :data="tableData" style="width: 100%">
+            <el-table-column type="index" width="50" />
             <el-table-column align="left" prop="username" min-width="150" label="用户名" />
             <el-table-column align="left" prop="email" min-width="150" label="邮箱" show-overflow-tooltip/>
             <el-table-column align="left" prop="phone" min-width="150" label="手机号" />

@@ -35,31 +35,69 @@
 
 // table
 // 这里加黑了标题和色彩
+// .el-table {
+//   thead {
+//     color: #262626;
+//   }
+//   th {
+//     padding: 6px 0;
+//     .cell {
+//       color: rgba($color: #000000, $alpha: 0.85);
+//       font-size: 14px;
+//       line-height: 40px;
+//       min-height: 40px;
+//     }
+//   }
+//   td {
+//     padding: 6px 0;
+//     .cell {
+//       min-height: 40px;
+//       line-height: 40px;
+//       color: rgba($color: #000000, $alpha: 0.65);
+//     }
+//   }
+//   td.is-leaf {
+//     border-bottom: 1px solid #e8e8e8;
+//   }
+//   // 标题背景颜色
+//   th.is-leaf {
+//     background: #f7fbff;
+//     border-bottom: none;
+//   }
+// }
+
 .el-table {
+  // 表头文本的颜色设置为 #262626
   thead {
     color: #262626;
   }
+  // 表头单元格的内边距
   th {
     padding: 6px 0;
     .cell {
+      // 字体颜色、字体大小、行高、最小高度的设置
       color: rgba($color: #000000, $alpha: 0.85);
       font-size: 14px;
       line-height: 40px;
       min-height: 40px;
     }
   }
+  // 数据单元格的内边距
   td {
     padding: 6px 0;
     .cell {
-      min-height: 40px;
-      line-height: 40px;
+      // 字体颜色、行高、最小高度的设置
+      // line-height 和 min-height 会影响表格内行是否居中，还有影响按钮
+      min-height: 30px;
+      line-height: 30px;
       color: rgba($color: #000000, $alpha: 0.65);
     }
   }
+  // 叶子节点的下边框
   td.is-leaf {
     border-bottom: 1px solid #e8e8e8;
   }
-  // 标题背景颜色
+  // 叶子节点的背景颜色和下边框
   th.is-leaf {
     background: #f7fbff;
     border-bottom: none;

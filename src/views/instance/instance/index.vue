@@ -6,22 +6,38 @@
           <el-button type="primary" icon="plus" @click="addIns">新增实例</el-button>
         </div>
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column align="left" prop="name" label="实例名" />
-          <el-table-column align="left" prop="db_type" label="数据库类型" />
-          <el-table-column align="left" prop="host" label="数据库地址" />
-          <el-table-column align="left" prop="port" label="数据库端口" />
-          <el-table-column align="left" prop="user" label="连接用户" />
-          <el-table-column align="left" label="操作" width="180">
+          <el-table-column align="left" prop="name" label="实例名" min-width="120" />
+          <el-table-column align="left" prop="db_type" label="数据库类型" min-width="120" />
+          <el-table-column align="left" prop="host" label="数据库地址" min-width="120" />
+          <el-table-column align="left" prop="port" label="数据库端口" min-width="120" />
+          <el-table-column align="left" prop="user" label="连接用户" min-width="120" />
+          <el-table-column align="left" label="操作" min-width="180" fixed="right">
             <template #default="scope">
-              <el-button link type="primary" size="small" @click.prevent="editIns(scope.row)">
-                编辑
-              </el-button>
-              <el-button link type="primary" size="small" @click.prevent="deleteRow(scope.row)">
-                删除
-              </el-button>
-              <el-button link type="primary" size="small" @click.prevent="pingRow(scope.row)">
+              <el-button icon="Connection" type="primary" link @click.prevent="pingRow(scope.row)">
                 连接测试
               </el-button>
+              <el-dropdown>
+                <el-button  type="primary" text >更多 <el-icon class="el-icon--right"><arrow-down /></el-icon></el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item divided>
+                      <el-button icon="edit" type="primary" link @click.prevent="editRow(scope.row)">
+                        编辑
+                      </el-button>
+                    </el-dropdown-item>
+                    <el-dropdown-item divided>
+                      <el-button icon="delete" type="primary" link @click.prevent="deleteRow(scope.row)">
+                        删除
+                      </el-button>
+                    </el-dropdown-item>
+                    <el-dropdown-item divided>
+                      <el-button icon="Lock" type="primary" link @click.prevent="passwordRow(scope.row)">
+                        修改密码
+                      </el-button>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </template>
           </el-table-column>
         </el-table>
@@ -38,8 +54,7 @@
                 <el-input v-model="insForm.name" maxlength="30" show-word-limit placeholder="请输入实例名" />
               </el-form-item>
               <el-form-item label="数据库类型" prop="db_type">
-                <!-- <el-input v-model="insForm.db_type" placeholder="请输入数据库类型" /> -->
-                <el-select v-model="insForm.db_type" placeholder="数据库类型">
+                <el-select v-model="insForm.db_type" placeholder="数据库类型" style="width: 100%">
                   <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>
               </el-form-item>
@@ -88,16 +103,33 @@
               <el-form-item label="数据库用户" prop="user">
                 <el-input v-model="editForm.user" placeholder="请输入连接用户" />
               </el-form-item>
-              <el-form-item label="密码" prop="password">
-                <el-input v-model="editForm.password" placeholder="请输入密码" autocomplete="off" type="password"
-                  show-password />
-              </el-form-item>
             </el-form>
           </div>
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="cancelEdit">关闭</el-button>
               <el-button type="primary" @click="submitEdit">提交</el-button>
+            </span>
+          </template>
+        </el-dialog>
+        <el-dialog v-model="passDialog" title="修改密码" width="40%">
+          <div>
+            <el-form ref="passFormRef" :model="passForm" status-icon :rules="passRules" label-width="120px"
+              style="max-width: 380px" class="demo-ruleForm">
+              <el-form-item label="密码" prop="password">
+                <el-input v-model="passForm.password" placeholder="请输入密码" autocomplete="off" type="password"
+                  show-password />
+              </el-form-item>
+              <el-form-item label="确认密码" prop="checkPass">
+                <el-input v-model="passForm.checkPass" placeholder="请再次输入密码" autocomplete="off" type="password"
+                  show-password />
+              </el-form-item>
+            </el-form>
+          </div>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="cancelFormPass">关闭</el-button>
+              <el-button type="primary" @click="submitFormPass">提交</el-button>
             </span>
           </template>
         </el-dialog>
@@ -108,8 +140,10 @@
     
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import { getInstanceList, pingIns, getIns, createIns, deleteIns, updateIns, Instance } from "@/api/instance"
+import { getInstanceList, pingInstance, getInstance, createInstance, deleteInstance, updateInstance, updateInstancePassword, Instance } from "@/api/instance"
 import { ElMessage } from 'element-plus';
+import { ArrowDown } from '@element-plus/icons-vue'
+
 
 const total = ref(0)
 const currentPage = ref(1);
@@ -120,26 +154,21 @@ const small = ref(false);
 const background = ref(false);
 const disabled = ref(false);
 
-const value = ref('')
+const addInsDialog = ref(false);
+const editInsDialog = ref(false);
+const passDialog = ref(false);
+
+const insFormRef = ref();
+const editFormRef = ref();
+const passFormRef = ref()
+
 const options = [
   {
-    value: 'mysql',
+    value: 'MySQL',
     label: 'MySQL',
   },
   {
-    value: 'redis',
-    label: 'Redis',
-  },
-  {
-    value: 'mongodb',
-    label: 'MongoDB',
-  },
-  {
-    value: 'elasticsearch',
-    label: 'Elasticsearch',
-  },
-  {
-    value: 'postgresql',
+    value: 'PostgreSQL',
     label: 'PostgreSQL',
   }
 ]
@@ -170,42 +199,69 @@ const handleCurrentChange = (val: number) => {
 };
 
 
-const addInsDialog = ref(false);
-const editInsDialog = ref(false);
-
 // 增删改查
 const deleteRow = async (row: Instance) => {
-  const res = await deleteIns({ name: row.name });
-  if (res.status === 200) {
-    ElMessage.success('删除成功');
-    await getTableData();
-  }
+  ElMessageBox.confirm(
+    '此操作将永久删除该实例, 是否继续?',
+    'Warning',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    }
+  )
+    .then(async () => {
+      const res = await deleteInstance({ name: row.name });
+      if (res.data.code === 1000) {
+        ElMessage({
+          type: 'success',
+          message: '实例删除成功',
+        })
+        await getTableData();
+      } else {
+        ElMessage({
+          type: 'error',
+          message: '实例删除失败',
+        })
+      }
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: '取消删除实例',
+      })
+    })
 };
 
 const addIns = () => {
   addInsDialog.value = true
 }
 
+const passwordRow = async (row: Instance) => {
+  passForm.name = row.name;
+  passDialog.value = true;
+}
 
-const editIns = async (row: Instance) => {
+
+const editRow = async (row: Instance) => {
   editInsDialog.value = true
 
-  const res = await getIns({ name: row.name });
-  if (res.status === 200) {
-    editForm.name = res.data.data[0].name;
-    editForm.db_type = res.data.data[0].db_type;
-    editForm.host = res.data.data[0].host;
-    editForm.port = res.data.data[0].port;
-    editForm.user = res.data.data[0].user;
-    editForm.password = res.data.data[0].password;
+  const res = await getInstance({ name: row.name });
+  if (res.data.code === 1000) {
+    editForm.id = res.data.data.data[0].id;
+    editForm.name = res.data.data.data[0].name;
+    editForm.db_type = res.data.data.data[0].db_type;
+    editForm.host = res.data.data.data[0].host;
+    editForm.port = res.data.data.data[0].port;
+    editForm.user = res.data.data.data[0].user;
   }
 }
 
 
 // 数据库连接性测试
 const pingRow = async (row: Instance) => {
-  const res = await pingIns({ name: row.name });
-  if (res.status === 200) {
+  const res = await pingInstance({ name: row.name });
+  if (res.data.code === 1000 && res.data.data === 1) {
     ElMessage({ type: 'success', message: '连接数据库成功' });
   } else {
     ElMessage({ type: 'error', message: '连接数据库失败' });
@@ -235,6 +291,29 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
   }
 };
 
+
+const validatePass2Pass = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请再次输入密码'));
+  } else if (value !== passForm.password) {
+    callback(new Error('两次输入密码不一致!'));
+  } else {
+    callback();
+  }
+};
+
+const passRules = reactive({
+  password: [
+    { required: true, trigger: "blur" },
+    { required: true, min: 6, max: 30, trigger: "blur" },
+  ],
+  checkPass: [
+    { required: true, trigger: "blur" },
+    { required: true, min: 6, max: 30, trigger: "blur" },
+    { validator: validatePass2Pass, trigger: 'blur' },
+  ],
+});
+
 const rules = reactive({
   name: [{ required: true, trigger: 'blur' }],
   db_type: [{ required: true, trigger: 'blur' }],
@@ -245,10 +324,8 @@ const rules = reactive({
   checkPass: [{ validator: validatePass2 }, { required: true, min: 6, trigger: 'blur' }],
 });
 
-const insFormRef = ref();
-const editFormRef = ref();
-
 const editForm = reactive({
+  id: 0,
   name: '',
   db_type: '',
   host: '',
@@ -267,6 +344,13 @@ const insForm = reactive({
   checkPass: '',
 });
 
+const passForm = reactive({
+  name: "",
+  password: "",
+  checkPass: "",
+});
+
+
 // 创建用户取消按钮
 const cancelForm = async () => {
   insFormRef.value.resetFields();
@@ -277,8 +361,8 @@ const cancelForm = async () => {
 const submitForm = async () => {
   insFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
-      const res = await createIns(insForm);
-      if (res.status === 200) {
+      const res = await createInstance(insForm);
+      if (res.data.code === 1000) {
         ElMessage({ type: 'success', message: '实例创建成功' });
         await getTableData();
         cancelForm();
@@ -294,12 +378,11 @@ const cancelEdit = async () => {
   editInsDialog.value = false;
 }
 
-
 const submitEdit = async () => {
   editFormRef.value.validate(async (valid: boolean) => {
     if (valid) {
-      const res = await updateIns(editForm);
-      if (res.status === 200) {
+      const res = await updateInstance(editForm);
+      if (res.data.code === 1000) {
         ElMessage({ type: 'success', message: '实例修改成功' });
         await getTableData();
         cancelEdit();
@@ -309,6 +392,25 @@ const submitEdit = async () => {
   });
 }
 
+
+const cancelFormPass = async () => {
+  passFormRef.value.resetFields();
+  passDialog.value = false;
+}
+
+
+const submitFormPass = async () => {
+  passFormRef.value.validate(async (valid: boolean) => {
+    if (valid) {
+      const res = await updateInstancePassword(passForm);
+      if (res.data.code === 1000) {
+        ElMessage({ type: 'success', message: '实例密码修改成功' });
+        await getTableData();
+        cancelFormPass;
+      }
+      passDialog.value = false;
+    }
+  })
+}
+
 </script>
-    
-    
