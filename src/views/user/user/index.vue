@@ -38,7 +38,7 @@
                 layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
                 @current-change="handleCurrentChange" />
         </div>
-        <el-dialog v-model="addDialog" title="创建用户" width="40%">
+        <el-dialog v-model="addDialog" title="创建用户" style="max-width: 500px">
             <div>
                 <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px"
                     style="max-width: 380px" class="demo-ruleForm">
@@ -74,7 +74,7 @@
                 </span>
             </template>
         </el-dialog>
-        <el-dialog v-model="editDialog" title="修改用户" width="40%">
+        <el-dialog v-model="editDialog" title="修改用户" style="max-width: 500px">
             <div>
                 <el-form ref="editFormRef" :model="editForm" status-icon :rules="rules" label-width="120px"
                     style="max-width: 380px" class="demo-ruleForm">
@@ -103,7 +103,7 @@
                 </span>
             </template>
         </el-dialog>
-        <el-dialog v-model="passDialog" title="修改密码" width="40%">
+        <el-dialog v-model="passDialog" title="修改密码" style="max-width: 500px">
             <div>
                 <el-form ref="passFormRef" :model="passForm" status-icon :rules="passRules" label-width="120px"
                     style="max-width: 380px" class="demo-ruleForm">

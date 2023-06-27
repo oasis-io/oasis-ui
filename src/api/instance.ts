@@ -11,6 +11,8 @@ export interface Instance {
 }
 
 
+// Instance List
+
 export const getInstanceName = () => {
     return service({
         url: `/instance/name`,
@@ -78,6 +80,27 @@ export const deleteInstance = (data: any ) => {
 export const pingInstance = (data: any) => {
     return service({
         url: `/instance/ping`,
+        method: 'post',
+        data: data
+    })
+}
+
+
+// Instance Databse
+export const getDatabaseList = (data: any) => {
+    return service({
+        url: `/instance/database/list`,
+        method: 'post',
+        data: data
+    })
+}
+
+
+
+// Instance Account 
+export const getAccountList = (data: any) => {
+    return service({
+        url: `/instance/account/list`,
         method: 'post',
         data: data
     })

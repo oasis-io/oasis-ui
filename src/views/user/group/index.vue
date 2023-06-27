@@ -21,7 +21,7 @@
         :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
     </div>
     <div>
-      <el-dialog v-model="addDialog" title="创建用户组" width="40%">
+      <el-dialog v-model="addDialog" title="创建用户组" style="max-width: 500px">
         <div>
           <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px"
             style="max-width: 380px" class="demo-ruleForm">
@@ -53,7 +53,7 @@
       </el-dialog>
     </div>
     <div>
-      <el-dialog v-model="editDialog" title="编辑用户组" width="40%">
+      <el-dialog v-model="editDialog" title="编辑用户组" style="max-width: 500px">
         <div>
           <el-form ref="editFormRef" :model="editForm" status-icon :rules="rules" label-width="120px"
             style="max-width: 380px" class="demo-ruleForm">

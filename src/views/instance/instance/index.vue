@@ -1,6 +1,4 @@
 <template>
-  <keep-alive>
-    <transition mode="out-in" name="el-fade-in-linear">
       <div class="table-box">
         <div class="button-left">
           <el-button type="primary" icon="plus" @click="addIns">新增实例</el-button>
@@ -46,7 +44,7 @@
             :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
             :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
         </div>
-        <el-dialog v-model="addInsDialog" title="创建实例" width="40%">
+        <el-dialog v-model="addInsDialog" title="创建实例" style="max-width: 500px">
           <div>
             <el-form ref="insFormRef" :model="insForm" status-icon :rules="rules" label-width="120px"
               style="max-width: 380px" class="demo-ruleForm">
@@ -84,7 +82,7 @@
             </span>
           </template>
         </el-dialog>
-        <el-dialog v-model="editInsDialog" title="修改实例" width="40%">
+        <el-dialog v-model="editInsDialog" title="修改实例" style="max-width: 500px">
           <div>
             <el-form ref="editFormRef" :model="editForm" status-icon :rules="rules" label-width="120px"
               style="max-width: 380px" class="demo-ruleForm">
@@ -112,7 +110,7 @@
             </span>
           </template>
         </el-dialog>
-        <el-dialog v-model="passDialog" title="修改密码" width="40%">
+        <el-dialog v-model="passDialog" title="修改密码" style="max-width: 500px">
           <div>
             <el-form ref="passFormRef" :model="passForm" status-icon :rules="passRules" label-width="120px"
               style="max-width: 380px" class="demo-ruleForm">
@@ -134,8 +132,6 @@
           </template>
         </el-dialog>
       </div>
-    </transition>
-  </keep-alive>
 </template>
     
 <script lang="ts" setup>

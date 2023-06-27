@@ -1,17 +1,8 @@
 <template>
-    <keep-alive>
-      <transition name="fade">
-        <h1>会话管理</h1>
-      </transition>
-    </keep-alive>
-  </template>
-
-
-<style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-</style>
+  <div class="table-box">
+    <el-tabs type="border-card">
+      <el-tab-pane label="进程信息">Processlist</el-tab-pane>
+      <el-tab-pane label="事务信息">Transaction</el-tab-pane>
+    </el-tabs>
+  </div>
+</template>

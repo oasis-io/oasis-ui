@@ -118,7 +118,7 @@ interface RowData {
     [key: string]: any;  
 }
 
-// 按照columnsOrder 字段顺序展示数据
+// 按照columnsOrder 顺序展示数据
 const reorderColumns = (row: RowData, columnsOrder: string[]): RowData => {
     const newRow: RowData = {};
     columnsOrder.forEach(column => {

@@ -21,7 +21,7 @@
           :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
           :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
       </div>
-      <el-dialog v-model="addDialog" title="创建角色" width="40%">
+      <el-dialog v-model="addDialog" title="创建角色" style="max-width: 500px">
         <div>
           <el-form ref="addFormRef" :model="addForm" status-icon :rules="rules" label-width="120px"
             style="max-width: 380px" class="demo-ruleForm">

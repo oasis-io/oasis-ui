@@ -1,75 +1,66 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="date" label="Date" width="150" />
-    <el-table-column label="Delivery Info">
-      <el-table-column prop="name" label="Name" width="120" />
-      <el-table-column label="Address Info">
-        <el-table-column prop="state" label="State" width="120" />
-        <el-table-column prop="city" label="City" width="120" />
-        <el-table-column prop="address" label="Address" />
-        <el-table-column prop="zip" label="Zip" width="120" />
+  <div class="table-box">
+    <el-table :data="tableData" style="width: 100%">
+      <el-table-column prop="name" label="数据库名" width="180" />
+      <el-table-column align="left" prop="desc" label="描述" min-width="180" />
+      <el-table-column align="left" label="操作" min-width="200">
+        <template #default="scope">
+          <el-button icon="edit" type="primary" link @click.prevent="editRow(scope.row)">
+            编辑
+          </el-button>
+          <el-button icon="delete" type="primary" link @click.prevent="deleteRow(scope.row)">删除</el-button>
+        </template>
       </el-table-column>
-    </el-table-column>
-  </el-table>
+    </el-table>
+    <div class="pagination">
+      <el-pagination v-model:current-page="currentPage" v-model:page-size="pageSize" :page-sizes="[10, 20, 50]"
+        :small="small" :disabled="disabled" :background="background" layout="total, sizes, prev, pager, next, jumper"
+        :total="total" @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+    </div>
+  </div>
 </template>
 
-<script lang="ts" setup>
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-]
+<script setup lang="ts">
+import { ref, reactive } from "vue";
+import { getDatabaseList } from '@/api/instance';
+
+
+const tableData = ref([]);
+const total = ref(0)
+const currentPage = ref(1);
+const pageSize = ref(10);
+const small = ref(false);
+const background = ref(false);
+const disabled = ref(false);
+
+
+const getTableData = async () => {
+  const table = await getDatabaseList({ pageSize: pageSize.value, currentPage: currentPage.value });
+  if ((table.data.code === 1000)) {
+    tableData.value = table.data.data.data;
+    total.value = table.data.data.total;
+    pageSize.value = table.data.data.pageSize;
+    currentPage.value = table.data.data.currentPage;
+  }
+};
+
+getTableData()
+
+const editRow = async (row: string) => {
+}
+
+const deleteRow = async (row: string) => {
+}
+
+
+const handleSizeChange = (val: number) => {
+  pageSize.value = val;
+  getTableData();
+};
+const handleCurrentChange = (val: number) => {
+  currentPage.value = val;
+  getTableData();
+};
+
 </script>
+
